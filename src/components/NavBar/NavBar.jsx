@@ -1,5 +1,3 @@
-// src/components/NavBar/NavBar.jsx
-
 // Import the useContext hook
 import { useContext } from 'react';
 import { Link } from 'react-router';
@@ -43,4 +41,3 @@ const NavBar = () => {
 };
 
 export default NavBar;
-

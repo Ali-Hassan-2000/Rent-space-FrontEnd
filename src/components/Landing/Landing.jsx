@@ -1,5 +1,3 @@
-// src/components/Landing.jsx
-
 const Landing = () => {
   return (
     <main>
@@ -10,4 +8,3 @@ const Landing = () => {
 };
 
 export default Landing;
-

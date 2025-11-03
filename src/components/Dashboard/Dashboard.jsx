@@ -1,5 +1,3 @@
-// src/components/Dashboard/Dashboard.jsx
-
 import { useContext, useEffect } from 'react';
 import * as userService from '../../services/userService'
 import { UserContext } from '../../contexts/UserContext';
@@ -31,4 +29,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
