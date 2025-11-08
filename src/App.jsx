@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router'; // Import React Router
+import { Routes, Route, Navigate } from 'react-router-dom'; // Import React Router
 
 import NavBar from './components/NavBar/NavBar';
 // Import the SignUpForm component
@@ -31,6 +31,7 @@ const App = () => {
         }
         <Route path='/sign-up' element={<SignUpForm />} />
         <Route path='/sign-in' element={<SignInForm />} />
+        <Route path= '*' element={<Navigate to = '/' replace />} />
       </Routes>
     </>
   );
