@@ -14,17 +14,21 @@ const ApartmentShow = () => {
     const [startDate, setStartDtae] = useState('');
 
     useEffect(() => {
-        (async() => {
-            try {
-                const res = await fetch (`${API}/apartments/${id}`);
-                const data = await res.json();
-                setApt(data);
-            } catch (e) {
-                console.error(e);
-            }
-        })();
+        fetch(`${API}/apartments/$[id]`)
+        .then((res) => res.json())
+        .then((data) => setApt(data));
     }, [id]);
-    
+
+    if (!apt) return <main>Loading...</main>;
+
+    const handleFavorite = () => {
+        if (!user) {
+            navigate (`/sign-in?next=/apartments${id}`);
+            return;
+        }
+    };
+        
+
 }
 
 
