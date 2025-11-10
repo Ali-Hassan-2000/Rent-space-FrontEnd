@@ -21,7 +21,7 @@ const App = () => {
           user ?
           <>
             {/* no need for this routes */}
-            <Route path='/' element={<Dashboard/>}/>
+          {/*  <Route path='/' element={<Dashboard/>}/> */}
             <Route path='/products' element={<h1>Producs</h1>}/>
             <Route path='/favs' element={<h1>Favs</h1>}/>
             <Route path='/profile' element={<h1>{user.username}</h1>}/>
