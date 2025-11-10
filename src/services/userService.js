@@ -5,7 +5,12 @@ export const index = async () => {
    try {
     const res = await fetch(`${BASE_URL}/`, {
       method: 'GET',
-      headers
+      // when the usuer sign in the const headers is null so there will be 401 error in [get users] side
+      // headers changed here to fix the issue
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     const data = await res.json();
