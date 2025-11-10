@@ -9,7 +9,6 @@ const Dashboard = () => {
     const fetchUsers = async () => {
       try {
         const fetchedUsers = await userService.index();
-        console.log(fetchedUsers);
       } catch (err) {
         console.log(err)
       }
