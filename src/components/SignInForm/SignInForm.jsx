@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, Link } from 'react-router';
 
 import { signIn } from '../../services/authService';
 
@@ -67,6 +67,9 @@ const SignInForm = () => {
           <button onClick={() => navigate('/')}>Cancel</button>
         </div>
       </form>
+
+      <p>Don’t have an account? <Link to='/sign-up'>Register now</Link> </p>
+
     </main>
   );
 };
