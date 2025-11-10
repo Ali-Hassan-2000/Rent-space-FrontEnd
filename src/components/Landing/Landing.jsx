@@ -1,3 +1,5 @@
+// no need for this component
+
 const Landing = () => {
   return (
     <main>

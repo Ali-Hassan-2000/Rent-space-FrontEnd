@@ -25,6 +25,7 @@ const NavBar = () => {
     <nav>
       {user ? (
         <ul>
+          {/* no need for this routes */}
           <li>Welcome, {user.username}</li>
           <li><Link to='/'>Dashboard</Link></li>
           <li><Link to='/' onClick={handleSignOut}>Sign Out</Link></li>
@@ -32,7 +33,6 @@ const NavBar = () => {
       ) : (
         <ul>
           <li><Link to='/'>Home</Link></li>
-          <li><Link to='/sign-up'>Sign Up</Link></li>
           <li><Link to='/sign-in'>Sign In</Link></li>
         </ul>
       )}

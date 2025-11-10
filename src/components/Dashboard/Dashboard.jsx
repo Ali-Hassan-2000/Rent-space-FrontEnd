@@ -1,3 +1,5 @@
+// no need for this component
+
 import { useContext, useEffect } from 'react';
 import * as userService from '../../services/userService'
 import { UserContext } from '../../contexts/UserContext';

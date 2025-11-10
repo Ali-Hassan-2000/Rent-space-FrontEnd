@@ -20,6 +20,7 @@ const App = () => {
         {
           user ?
           <>
+            {/* no need for this routes */}
             <Route path='/' element={<Dashboard/>}/>
             <Route path='/products' element={<h1>Producs</h1>}/>
             <Route path='/favs' element={<h1>Favs</h1>}/>
@@ -31,6 +32,7 @@ const App = () => {
         }
         <Route path='/sign-up' element={<SignUpForm />} />
         <Route path='/sign-in' element={<SignInForm />} />
+        
         <Route path= '*' element={<Navigate to = '/' replace />} />
       </Routes>
     </>
