@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
-import { index as getApartments } from '../services/apartmentService';
+import { index as getApartments } from '../../services/apartmentService';
 
 const Home = () => {
   const [apartments, setApartments] = useState([]);
