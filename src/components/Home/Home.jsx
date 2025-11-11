@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
+import { index as getApartments } from '../services/apartmentService';
+
 const Home = () => {
   const [apartments, setApartments] = useState([]);
   const [cities, setCities] = useState([]);
@@ -8,28 +10,25 @@ const Home = () => {
 
   // Fetch apartments from backend
   useEffect(() => {
+    
     const fetchApartments = async () => {
-      try {
-        const res = await fetch(`${import.meta.env.VITE_BACK_END_SERVER_URL}/apartments`);
-        const data = await res.json();
+        try {
+        const data = await getApartments();
         setApartments(data);
-
-        // Group apartments by city
-        const cityGroups = [...new Set(data.map(a => a.ApartmentCity))];
-        setCities(cityGroups);
-      } catch (err) {
-        console.log('Error fetching apartments:', err);
-      }
+        } catch (err) {
+        console.error(err);
+        }
     };
+
     fetchApartments();
   }, []);
 
-  // Function to navigate to city page
+  
   const handleCityClick = (city) => {
     navigate(`/city/${city}`);
   };
 
-  // Get top 4-5 apartments by rating per city
+  
   const getTopRatedApartments = (city) => {
     return apartments
       .filter(a => a.ApartmentCity === city)
