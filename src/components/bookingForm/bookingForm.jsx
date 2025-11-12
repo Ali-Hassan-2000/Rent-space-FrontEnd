@@ -2,7 +2,9 @@ import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { DateRange } from 'react-date-range';
 import { UserContext } from '../../contexts/UserContext';
-
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
+import './bookingForm.css';
 
 const BookingForm = ({ apartmentId, apartmentPrice }) => {
   const { user } = useContext(UserContext);
