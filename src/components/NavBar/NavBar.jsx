@@ -25,19 +25,37 @@ const NavBar = () => {
 
   return (
     <nav>
-      {user ? (
-        <ul>
-          {/* no need for this routes */}
-          <li>Welcome, {user.username}</li>
-          <li><Link to='/'>Dashboard</Link></li>
-          <li><Link to='/' onClick={handleSignOut}>Sign Out</Link></li>
-        </ul>
-      ) : (
-        <ul>
-          <li><Link to='/'>Home</Link></li>
-          <li><Link to='/sign-in'>Sign In</Link></li>
-        </ul>
-      )}
+      
+      <Link to="/"> 
+        <img src='https://res.cloudinary.com/dnmdmz7qo/image/upload/v1759767143/shop_logo_vfc77y.png'
+             alt='Home'/>
+      </Link>
+
+      <ul>
+        {!user ? (
+            <li> <Link to="/sign-in"> Log In </Link> </li>
+        ) : (
+          <>
+            <li> <span>Hi, {user.username}</span> </li>
+
+            {user.role === 'Customer' && (
+              <>
+                <li> <Link to="/favorites"> Favourites </Link> </li>
+                <li> <Link to="/bookings"> Booking List </Link> </li>
+              </>
+            )}
+
+            {user.role === 'Owner' && (
+              <>
+                <li> <Link to="/apartments/new"> Add Apartment </Link> </li>
+                <li> <Link to="/apartments"> Apartment List </Link> </li>
+              </>
+            )}
+
+            <li> <button onClick={handleSignOut}> Sign Out </button> </li>
+          </>
+        )}
+      </ul>
     </nav>
   );
 };
