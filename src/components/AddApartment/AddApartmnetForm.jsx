@@ -64,12 +64,13 @@ const AddApartmentForm = () => {
 
       for (const key in formData) {
         if (Array.isArray(formData[key])) {
-          formData[key].forEach((val) => data.append(`${key}[]`, val));
+          formData[key].forEach((val) => data.append(key, val));
         } else {
           data.append(key, formData[key]);
         }
       }
-      
+
+
       images.forEach((img) => {
         data.append('ApartmentImg', img);
       });
@@ -122,19 +123,28 @@ const AddApartmentForm = () => {
         ></textarea>
 
         <label>Offerings</label>
-          <select
-            multiple
-            value={formData.ApartmentOffering}
-            onChange={handleOfferingChange}
-          >
 
-            {offeringOptions.map((offer) => (
-              <option key={offer} value={offer}>
-                {offer}
-              </option>
-            ))}
-
-          </select>
+        <div>
+          {offeringOptions.map((offer) => (
+            <label key={offer}>
+              <input
+                type="checkbox"
+                value={offer}
+                checked={formData.ApartmentOffering.includes(offer)}
+                onChange={(e) => {
+                  const { checked, value } = e.target;
+                  setFormData((prev) => ({
+                    ...prev,
+                    ApartmentOffering: checked
+                      ? [...prev.ApartmentOffering, value]
+                      : prev.ApartmentOffering.filter((item) => item !== value),
+                  }));
+                }}
+              />
+              <span>{offer}</span>
+            </label>
+          ))}
+        </div>
 
         <label>City / Village</label>
           <select
