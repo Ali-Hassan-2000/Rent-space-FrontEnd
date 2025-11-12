@@ -67,7 +67,49 @@ const backendUrl = import.meta.env.VITE_BACK_END_SERVER_URL;
     setTotalPrice(price);
   };
 
-  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError('');
+
+    if (!user) {
+      setError('Please sign in to book');
+      setIsLoading(false);
+      return;
+    }
+
+    const bookingData = {
+      apartmentId,
+      startDate: dateRange[0].startDate.toISOString(),
+      endDate: dateRange[0].endDate.toISOString(),
+    };
+
+    try {
+      const headers = getAuthHeaders();
+
+      const res = await fetch(`${backendUrl}/bookings`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(bookingData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || 'Booking failed');
+      }
+
+      navigate(`/user-bookings/${user.id}`);
+    } catch (err) {
+      setError(err.message || 'Booking failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (loadingBookedDates) {
+    return <div className="booking-form-container">Loading available dates...</div>;
+  }
 
   return (
     <h1>ff</h1>
