@@ -32,6 +32,32 @@ const BookingForm = ({ apartmentId, apartmentPrice }) => {
 
  
 
+  const backendUrl = import.meta.env.VITE_BACK_END_SERVER_URL;
+
+  // Fetch booked dates on component mount
+  useEffect(() => {
+    fetchBookedDates();
+  }, [apartmentId]);
+
+  const fetchBookedDates = async () => {
+    try {
+      setLoadingBookedDates(true);
+      const res = await fetch(
+        `${backendUrl}/apartments/apartment/${apartmentId}/bookedDates`
+      );
+
+      if (!res.ok) {
+        throw new Error('Failed to fetch booked dates');
+      }
+    } catch (err) {
+      console.error('Error fetching booked dates:', err);
+    } finally {
+      setLoadingBookedDates(false);
+    }
+  };
+
+  // Calculate total price based on date range
+  
   return (
     <h1>ff</h1>
   );
