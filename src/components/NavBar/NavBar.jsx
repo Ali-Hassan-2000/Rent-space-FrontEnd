@@ -26,7 +26,10 @@ const NavBar = () => {
   return (
     <nav>
       
-      <Link to="/"> {/* App Logo */} </Link>
+      <Link to="/"> 
+        <img src='https://res.cloudinary.com/dnmdmz7qo/image/upload/v1759767143/shop_logo_vfc77y.png'
+             alt='Home'/>
+      </Link>
 
       <ul>
         {!user ? (
