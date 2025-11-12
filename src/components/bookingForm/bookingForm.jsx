@@ -70,52 +70,7 @@ const backendUrl = import.meta.env.VITE_BACK_END_SERVER_URL;
   
 
   return (
-    <div className="booking-form-container">
-      <form onSubmit={handleSubmit} className="booking-form">
-        <h2>Book This Apartment</h2>
-
-        {error && <div className="error-message">{error}</div>}
-
-        <div className="form-section">
-          <label htmlFor="dates">Select Dates</label>
-          <DateRange
-            ranges={dateRange}
-            onChange={handleDateChange}
-            minDate={new Date()}
-            rangeColors={['#3b82f6']}
-            className="date-range-picker"
-          />
-        </div>
-
-        <div className="price-summary">
-          <div className="price-row">
-            <span>Price per night</span>
-            <span>${apartmentPrice}</span>
-          </div>
-          <div className="price-row">
-            <span>Number of nights</span>
-            <span>
-              {Math.ceil(
-                (dateRange[0].endDate.getTime() - dateRange[0].startDate.getTime()) /
-                  (1000 * 60 * 60 * 24)
-              )}
-            </span>
-          </div>
-          <div className="price-total">
-            <span>Total Price</span>
-            <span>${totalPrice}</span>
-          </div>
-        </div>
-
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="submit-button"
-        >
-          {isLoading ? 'Booking...' : 'Confirm Booking'}
-        </button>
-      </form>
-    </div>
+    <h1>ff</h1>
   );
 };
 
