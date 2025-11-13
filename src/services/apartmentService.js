@@ -40,7 +40,9 @@ const create = async (formData) => {
 
     const res = await fetch(`${BASE_URL}/`, {
       method: 'POST',
-      headers,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
       body: formData,
     });
     console.log(res);
