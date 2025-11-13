@@ -64,8 +64,9 @@ const AddApartmentForm = () => {
     setLoading(true);
 
     try {
+     
       const data = new FormData();
-
+      
       for (const key in formData) {
         if (Array.isArray(formData[key])) {
           formData[key].forEach((val) => data.append(key, val));
@@ -73,7 +74,7 @@ const AddApartmentForm = () => {
           data.append(key, formData[key]);
         }
       }
-
+     
       images.forEach((img) => {
         data.append('ApartmentImg', img);
       });
@@ -168,13 +169,13 @@ const AddApartmentForm = () => {
           <input type="file" id="ApartmentImg" accept="image/*" onChange={handleImageChange} required/>
 
           <label for="ApartmentImg2">Apartment img 2:</label>
-          <input type="file" id="ApartmentImg2" accept="image/*" onChange={handleImageChange} required/>
+          <input type="file" id="ApartmentImg2" accept="image/*" onChange={handleImageChange}/>
 
           <label for="ApartmentImg3">Apartment img 3:</label>
-          <input type="file" id="ApartmentImg3" accept="image/*" onChange={handleImageChange} required/>
+          <input type="file" id="ApartmentImg3" accept="image/*" onChange={handleImageChange}/>
 
           <label for="ApartmentImg4">Apartment img 4:</label>
-          <input type="file" id="ApartmentImg4" accept="image/*" onChange={handleImageChange} required/>
+          <input type="file" id="ApartmentImg4" accept="image/*" onChange={handleImageChange}/>
 
         <button
           type="submit"

@@ -40,13 +40,13 @@ const create = async (formData) => {
 
     const res = await fetch(`${BASE_URL}/`, {
       method: 'POST',
-      headers: {
-        ...headers,
-      },
+      headers,
       body: formData,
     });
+    console.log(res);
 
     const data = await res.json();
+    console.log(data);
 
     if (!res.ok) throw new Error(data.err || 'Failed to create apartment');
     
