@@ -4,15 +4,27 @@ import { useParams } from 'react-router';
 
 const CityShow = () => {
     const {city} = useParams();
+    const navigate = useNavigate();
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     
     
 
     useEffect(() => { 
-        fetch(`${API}/apartments?city=${encodeURIComponent(city)}`)
+        fetch(`apartments`)
         .then(r => r.json())
-        .then(d => {setItems(Array.isArray(d) ? d : []); setLoading(false); })
+        .then((d) => {
+            const filtered = Array.isArray(d)
+            ? d.filter(
+            (apt) =>
+                apt.ApartmentCity &&
+            apt.ApartmentCity.toLowerCase() === city.toLowerCase()
+        )
+        : [];
+        setItems(filtered);
+        setLoading(false);
+        })
+
         .catch(() => setLoading(false));
     }, [city]);
 
@@ -27,9 +39,9 @@ const CityShow = () => {
                 <ul>
                     {items.map(a => (
                         <li key={a._id}>
-                            <link to={`/apartments/${a._id}`}>
+                            <button onClick={() => navigate(`/apartments/${a._id}`)}>
                             {a.ApartmentName} - {a.ApartmentCity} - {a.ApartmentPrice}
-                            </link>
+                            </button>
                         </li>
                     ))}
                 </ul>
