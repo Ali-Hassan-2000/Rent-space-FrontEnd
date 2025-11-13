@@ -37,14 +37,17 @@ const index = async () => {
 const create = async (formData) => {
   try {
     const headers = getAuthHeaders();
+    console.log(headers);
 
     const res = await fetch(`${BASE_URL}/`, {
       method: 'POST',
       headers,
       body: formData,
     });
+    console.log(res);
 
     const data = await res.json();
+    console.log(data);
 
     if (!res.ok) throw new Error(data.err || 'Failed to create apartment');
     
