@@ -64,8 +64,9 @@ const AddApartmentForm = () => {
     setLoading(true);
 
     try {
+     
       const data = new FormData();
-      console.log(data);
+      
       for (const key in formData) {
         if (Array.isArray(formData[key])) {
           formData[key].forEach((val) => data.append(key, val));
@@ -73,7 +74,7 @@ const AddApartmentForm = () => {
           data.append(key, formData[key]);
         }
       }
-      console.log(data);
+     
       images.forEach((img) => {
         data.append('ApartmentImg', img);
       });

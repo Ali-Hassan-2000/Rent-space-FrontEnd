@@ -37,7 +37,6 @@ const index = async () => {
 const create = async (formData) => {
   try {
     const headers = getAuthHeaders();
-    console.log(headers);
 
     const res = await fetch(`${BASE_URL}/`, {
       method: 'POST',
