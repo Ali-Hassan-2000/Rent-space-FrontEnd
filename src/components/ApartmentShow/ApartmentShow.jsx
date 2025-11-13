@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router';
 import { userContext } from 'react';
 import { UserContext, userContext } from '../../contexts/UserContext';
 
-const API = 'http://localhost:3000';
 
 const ApartmentShow = () => {
     const {id} = useParams();

@@ -29,7 +29,7 @@ const Home = () => {
   }, []);
 
   const handleCityClick = (city) => {
-    navigate(`/city/${city}`);
+    navigate(`/cities/${city}`);
   };
 
   const getTopRatedApartments = (city) => {

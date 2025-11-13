@@ -7,9 +7,10 @@ import Home from './components/Home/Home';
 import SignUpForm from './components/SignUpForm/SignUpForm';
 import SignInForm from './components/SignInForm/SignInForm';
 import Footer from './components/Footer/Footer';
-import AddApartmentForm from './components/AddApartment/AddApartmnetForm';
-import ApartmentShow from './components/ApartmentShow/ApartmnetShow';
+import AddApartmentForm from './components/AddApartment/AddApartmentForm';
+import ApartmentShow from './components/ApartmentShow/ApartmentShow';
 import BookingForm from './components/bookingForm/bookingForm';
+import CityShow from './components/CityShow/CityShow';
 
 
 const App = () => {
@@ -25,8 +26,12 @@ const App = () => {
         <Route path='/sign-in' element={<SignInForm />} />
         <Route path='/apartments/new' element={<AddApartmentForm />} />
 
+        {/*
         <Route path='/apartments/:id' element={<ApartmentShow />} />
         <Route path='/booking-form/:id' element={<BookingForm />} />
+        <Route path='/cities/:city' element={<CityShow />} />
+        */}
+        
 
         
         <Route path= '*' element={<Navigate to = '/' replace />} />
