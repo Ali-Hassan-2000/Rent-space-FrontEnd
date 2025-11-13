@@ -28,7 +28,7 @@ const App = () => {
 
         <Route path='/apartments/:id' element={<ApartmentShow />} />
         <Route path='/booking-form/:id' element={<BookingForm />} />
-        <Route path='/cities/city' element={<CityShow />} />
+        <Route path='/cities/:city' element={<CityShow />} />
 
         
         <Route path= '*' element={<Navigate to = '/' replace />} />
