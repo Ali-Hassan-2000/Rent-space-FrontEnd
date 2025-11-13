@@ -7,7 +7,7 @@ import Home from './components/Home/Home';
 import SignUpForm from './components/SignUpForm/SignUpForm';
 import SignInForm from './components/SignInForm/SignInForm';
 import Footer from './components/Footer/Footer';
-import AddApartmentForm from './components/AddApartment/AddApartmnetForm';
+import AddApartmentForm from './components/AddApartment/AddApartmentForm';
 import ApartmentShow from './components/ApartmentShow/ApartmnetShow';
 import BookingForm from './components/bookingForm/bookingForm';
 
