@@ -10,6 +10,7 @@ import Footer from './components/Footer/Footer';
 import AddApartmentForm from './components/AddApartment/AddApartmnetForm';
 import ApartmentShow from './components/ApartmentShow/ApartmnetShow';
 import BookingForm from './components/bookingForm/bookingForm';
+import CityShow from './components/CityShow/CityShow';
 
 
 const App = () => {
@@ -27,6 +28,7 @@ const App = () => {
 
         <Route path='/apartments/:id' element={<ApartmentShow />} />
         <Route path='/booking-form/:id' element={<BookingForm />} />
+        <Route path='/cities/cityName' element={<CityShow />} />
 
         
         <Route path= '*' element={<Navigate to = '/' replace />} />
