@@ -65,7 +65,7 @@ const AddApartmentForm = () => {
 
     try {
       const data = new FormData();
-      console.log(data);
+      console.log(data); 
       for (const key in formData) {
         if (Array.isArray(formData[key])) {
           formData[key].forEach((val) => data.append(key, val));
