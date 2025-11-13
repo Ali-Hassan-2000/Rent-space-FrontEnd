@@ -44,9 +44,13 @@ const AddApartmentForm = () => {
     }));
   };
 
-  const handleOfferingChange = (e) => {
-    const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
-    setFormData((prev) => ({ ...prev, ApartmentOffering: selectedOptions }));
+  const toggleOffering = (offer, checked) => {
+    setFormData(prev => ({
+      ...prev,
+      ApartmentOffering: checked
+        ? [...prev.ApartmentOffering, offer]
+        : prev.ApartmentOffering.filter(o => o !== offer)
+    }));
   };
 
   const handleImageChange = (e) => {
@@ -70,7 +74,6 @@ const AddApartmentForm = () => {
         }
       }
 
-
       images.forEach((img) => {
         data.append('ApartmentImg', img);
       });
@@ -84,9 +87,8 @@ const AddApartmentForm = () => {
     }
   };
 
-  // Only owners can access
   if (!user || user.role !== 'Owner') {
-    return <p className="text-center text-red-500 mt-6">Only Owners can add apartments.</p>;
+    return <p>Only Owners can add apartments.</p>;
   }
 
   return (
@@ -96,34 +98,39 @@ const AddApartmentForm = () => {
       {error && <p> {error} </p>}
       {success && <p> {success} </p>}
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
+      <form onSubmit={handleSubmit} enctype="multipart/form-data">
+
+        <label for="ApartmentName">Apartment name:</label>
+      	<input 
+          type="text" 
+          id="ApartmentName" 
           name="ApartmentName"
-          placeholder="Apartment Name"
           value={formData.ApartmentName}
           onChange={handleChange}
           required
         />
 
-        <input
-          type="number"
+        <label for="ApartmentPrice">Item price:</label>
+      	<input 
+          type="number" 
+          id="ApartmentPrice" 
           name="ApartmentPrice"
-          placeholder="Price"
+          step="0.01" 
           value={formData.ApartmentPrice}
           onChange={handleChange}
           required
         />
 
-        <textarea
+        <label for="ApartmentDescription">Item description:</label>
+      	<textarea 
+          id="ApartmentDescription"
           name="ApartmentDescription"
-          placeholder="Description"
           value={formData.ApartmentDescription}
           onChange={handleChange}
+          required
         ></textarea>
 
         <label>Offerings</label>
-
         <div>
           {offeringOptions.map((offer) => (
             <label key={offer}>
@@ -131,20 +138,13 @@ const AddApartmentForm = () => {
                 type="checkbox"
                 value={offer}
                 checked={formData.ApartmentOffering.includes(offer)}
-                onChange={(e) => {
-                  const { checked, value } = e.target;
-                  setFormData((prev) => ({
-                    ...prev,
-                    ApartmentOffering: checked
-                      ? [...prev.ApartmentOffering, value]
-                      : prev.ApartmentOffering.filter((item) => item !== value),
-                  }));
-                }}
+                onChange={ (e) => toggleOffering(offer, e.target.checked) }
               />
               <span>{offer}</span>
             </label>
           ))}
         </div>
+
 
         <label>City / Village</label>
           <select
@@ -163,15 +163,18 @@ const AddApartmentForm = () => {
           
           </select>
 
-        <div>
-          <label>Upload Images</label>
-          <input
-            type="file"
-            multiple
-            accept="image/*"
-            onChange={handleImageChange}
-          />
-        </div>
+
+          <label for="ApartmentImg1">Apartment img 1:</label>
+          <input type="file" id="ApartmentImg" accept="image/*" onChange={handleImageChange} required/>
+
+          <label for="ApartmentImg2">Apartment img 2:</label>
+          <input type="file" id="ApartmentImg2" accept="image/*" onChange={handleImageChange} required/>
+
+          <label for="ApartmentImg3">Apartment img 3:</label>
+          <input type="file" id="ApartmentImg3" accept="image/*" onChange={handleImageChange} required/>
+
+          <label for="ApartmentImg4">Apartment img 4:</label>
+          <input type="file" id="ApartmentImg4" accept="image/*" onChange={handleImageChange} required/>
 
         <button
           type="submit"

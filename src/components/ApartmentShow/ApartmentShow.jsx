@@ -33,6 +33,7 @@ const ApartmentShow = () => {
             navigate (`/sign-in?next=/apartments${id}`);
             return
         }
+        navigate(`/booking-form/${id}`);
     };
 
     return (
