@@ -1,8 +1,5 @@
 const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/apartments`;
 
-// get token and headers
-const  headers = { Authorization: `Bearer ${ localStorage.getItem('token') }` };
-
 //----------------- Apartment (CRUD) ----------------//
 
 // Get all apartments
@@ -30,9 +27,11 @@ const index = async () => {
 const create = async (formData) => {
   try {
 
+    const token = localStorage.getItem('token');
+    
     const res = await fetch(`${BASE_URL}/`, {
       method: 'POST',
-      headers,
+      headers: { Authorization: `Bearer ${token}`},
       body: formData,
     });
 
