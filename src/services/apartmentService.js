@@ -32,7 +32,7 @@ const create = async (formData) => {
 
     const res = await fetch(`${BASE_URL}/`, {
       method: 'POST',
-      headers,
+      //headers,
       body: formData,
     });
     console.log(res);
