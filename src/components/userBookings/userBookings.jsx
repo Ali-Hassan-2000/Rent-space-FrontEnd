@@ -50,9 +50,82 @@ const fetchUserBookings = async () => {
     const end = new Date(endDate);
     return Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
   };
-  const calcTotalRevenue = () => {
-    return bookings.reduce((total, booking) => total + booking.totalPrice, 0);
-  };
+    if (!user || !userId) {
+    return (
+      <main className="user-bookings-container">
+        <p>Please sign in to view your bookings.</p>
+      </main>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <main className="user-bookings-container">
+        <p>Loading your bookings...</p>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className="user-bookings-container">
+        <div className="error-message">{error}</div>
+        <button onClick={fetchUserBookings} className="retry-button">
+          Retry
+        </button>
+      </main>
+    );
+  }
+
+  if (bookings.length === 0) {
+    return (
+      <main className="user-bookings-container">
+        <h1>My Bookings</h1>
+        <p className="no-bookings">You haven't made any bookings yet.</p>
+      </main>
+    );
+  }
+
+  return (
+    <main className="user-bookings-container">
+      <h1>My Bookings</h1>
+      <div className="bookings-grid">
+        {bookings.map((booking, idx) => (
+          <div key={idx} className="booking-card">
+            <div className="booking-header">
+              <h2>{booking.apartmentName || 'Apartment'}</h2>
+            </div>
+
+            <div className="booking-details">
+              <div className="detail-row">
+                <span className="label">Check-in</span>
+                <span className="value">{formatDate(booking.startDate)}</span>
+              </div>
+
+              <div className="detail-row">
+                <span className="label">Check-out</span>
+                <span className="value">{formatDate(booking.endDate)}</span>
+              </div>
+
+              <div className="detail-row">
+                <span className="label">Nights</span>
+                <span className="value">{calculateNights(booking.startDate, booking.endDate)}</span>
+              </div>
+
+              <div className="detail-row">
+                <span className="label">Total Price</span>
+                <span className="value price">${booking.totalPrice}</span>
+              </div>
+            </div>
+
+            <div className="booking-footer">
+              <span className="booking-status">Confirmed</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </main>
+  )
   
 
 }
