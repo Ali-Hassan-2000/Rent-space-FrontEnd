@@ -99,7 +99,7 @@ const AddApartmentForm = () => {
       {error && <p> {error} </p>}
       {success && <p> {success} </p>}
 
-      <form onSubmit={handleSubmit} enctype="multipart/form-data">
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
 
         <label for="ApartmentName">Apartment name:</label>
       	<input 
