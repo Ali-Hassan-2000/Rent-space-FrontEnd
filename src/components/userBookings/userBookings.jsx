@@ -58,7 +58,7 @@ const fetchUserBookings = async () => {
     );
   }
 
-  if (isLoading) {
+  if (loading) {
     return (
       <main className="user-bookings-container">
         <p>Loading your bookings...</p>
@@ -66,10 +66,10 @@ const fetchUserBookings = async () => {
     );
   }
 
-  if (error) {
+  if (err) {
     return (
       <main className="user-bookings-container">
-        <div className="error-message">{error}</div>
+        <div className="error-message">{err}</div>
         <button onClick={fetchUserBookings} className="retry-button">
           Retry
         </button>
@@ -129,3 +129,4 @@ const fetchUserBookings = async () => {
   
 
 }
+export default userBookings;

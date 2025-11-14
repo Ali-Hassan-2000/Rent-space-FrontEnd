@@ -11,6 +11,7 @@ import AddApartmentForm from './components/AddApartment/AddApartmentForm';
 import ApartmentShow from './components/ApartmentShow/ApartmentShow';
 import BookingForm from './components/bookingForm/bookingForm';
 import CityShow from './components/CityShow/CityShow';
+import UserBookings from './components/userBookings/userBookings';
 
 
 const App = () => {
@@ -25,7 +26,7 @@ const App = () => {
         <Route path='/sign-up' element={<SignUpForm />} />
         <Route path='/sign-in' element={<SignInForm />} />
         <Route path='/apartments/new' element={<AddApartmentForm />} />
-
+        <Route path='/bookings' element={<UserBookings />} />
         {/*
         <Route path='/apartments/:id' element={<ApartmentShow />} />
         <Route path='/booking-form/:id' element={<BookingForm />} />
