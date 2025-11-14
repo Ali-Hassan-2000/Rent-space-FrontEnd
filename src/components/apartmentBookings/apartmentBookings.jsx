@@ -31,7 +31,7 @@ const fetchApartmentBooking = async () => {
 
       const headers = getAuthHeaders();
       const res = await fetch(
-        `${backendUrl}/bookings/apartmentBookings/${apartmentId}`,
+        `${backendUrl}/apartmentBookings/${apartmentId}`,
         { headers }
       );
 
@@ -55,4 +55,39 @@ const fetchApartmentBooking = async () => {
       day: 'numeric',
     });
   };
+  const calculateNights = (startDate, endDate) => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    return Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
+  };
+  if (isLoading) {
+    return (
+      <div>
+        <p>Loading bookings...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div>
+        <div>{error}</div>
+        <button onClick={fetchApartmentBookings}>
+          Retry
+        </button>
+      </div>
+    );
+  }
+
+  if (bookings.length === 0) {
+    return (
+      <div>
+        <h2>Apartment Bookings</h2>
+        <p>No bookings yet for this apartment.</p>
+      </div>
+    );
+  }
+  return(
+    <h1></h1>
+  )
 };
