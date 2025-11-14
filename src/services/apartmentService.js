@@ -1,14 +1,7 @@
 const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/apartments`;
 
 // get token and headers
-const getAuthHeaders = () => {
-  const token = localStorage.getItem('token');
-  if (!token) throw new Error('No authentication token found');
-
-  return {
-    'Authorization': `Bearer ${token}`,
-  };
-};
+const  headers = { Authorization: `Bearer ${localStorage.getItem('token')}` }
 
 //----------------- Apartment (CRUD) ----------------//
 
@@ -36,12 +29,11 @@ const index = async () => {
 // Create new apartment
 const create = async (formData) => {
   try {
-    const headers = getAuthHeaders();
 
     const res = await fetch(`${BASE_URL}/`, {
       method: 'POST',
       headers,
-      body: formData,
+      body: JSON.stringify(formData),
     });
     console.log(res);
 
