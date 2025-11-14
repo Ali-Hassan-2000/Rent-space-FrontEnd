@@ -54,7 +54,7 @@ const AddApartmentForm = () => {
   };
 
   const handleImageChange = (e) => {
-    setImages([...e.target.files]);
+    setImages(prev => [...prev, ...e.target.files]);
   };
 
   const handleSubmit = async (e) => {
@@ -166,16 +166,16 @@ const AddApartmentForm = () => {
 
 
           <label for="ApartmentImg1">Apartment img 1:</label>
-          <input type="file" id="ApartmentImg" accept="image/*" onChange={handleImageChange} required/>
+          <input type="file" id="ApartmentImg1" name="ApartmentImg" accept="image/*" onChange={handleImageChange} required/>
 
           <label for="ApartmentImg2">Apartment img 2:</label>
-          <input type="file" id="ApartmentImg2" accept="image/*" onChange={handleImageChange}/>
+          <input type="file" id="ApartmentImg2" name="ApartmentImg" accept="image/*" onChange={handleImageChange}/>
 
           <label for="ApartmentImg3">Apartment img 3:</label>
-          <input type="file" id="ApartmentImg3" accept="image/*" onChange={handleImageChange}/>
+          <input type="file" id="ApartmentImg3" name="ApartmentImg" accept="image/*" onChange={handleImageChange}/>
 
           <label for="ApartmentImg4">Apartment img 4:</label>
-          <input type="file" id="ApartmentImg4" accept="image/*" onChange={handleImageChange}/>
+          <input type="file" id="ApartmentImg4" name="ApartmentImg" accept="image/*" onChange={handleImageChange}/>
 
         <button
           type="submit"
