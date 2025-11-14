@@ -1,8 +1,5 @@
 const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/apartments`;
 
-// get token and headers
-const  headers = { Authorization: `Bearer ${localStorage.getItem('token')}` }
-
 //----------------- Apartment (CRUD) ----------------//
 
 // Get all apartments
@@ -30,15 +27,15 @@ const index = async () => {
 const create = async (formData) => {
   try {
 
+    const token = localStorage.getItem('token');
+    
     const res = await fetch(`${BASE_URL}/`, {
       method: 'POST',
-      headers,
-      body: JSON.stringify(formData),
+      headers: { Authorization: `Bearer ${token}`},
+      body: formData,
     });
-    console.log(res);
 
     const data = await res.json();
-    console.log(data);
 
     if (!res.ok) throw new Error(data.err || 'Failed to create apartment');
     
