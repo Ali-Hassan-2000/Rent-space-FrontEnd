@@ -1,7 +1,7 @@
 const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/apartments`;
 
 // get token and headers
-const  headers = { Authorization: `Bearer ${localStorage.getItem('token')}` }
+const  headers = { Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFsaSIsIl9pZCI6IjY5MTFiNTJkODA2MDRiNTRkYzBlMDQ1YSIsInJvbGUiOiJPd25lciIsImlhdCI6MTc2MzEyNDExOX0.s1bHjlpvDn2iGTEuieliiESn5KPi28NqeHMh5IDsMsY` }
 
 //----------------- Apartment (CRUD) ----------------//
 
@@ -32,7 +32,7 @@ const create = async (formData) => {
 
     const res = await fetch(`${BASE_URL}/`, {
       method: 'POST',
-      //headers,
+      headers,
       body: formData,
     });
     console.log(res);
