@@ -28,6 +28,11 @@ const ApartmentShow = () => {
             try{
 
                 const res = await apartmentService.getApartment(id);
+                const data = res?.data ?? res;
+        if (!data) {
+          throw new Error('Apartment not found (empty response).');
+        }
+        setApt(data);
             }
             catch (err){
                 console.log(err)
@@ -39,7 +44,9 @@ const ApartmentShow = () => {
         fetchApt();
          }, [id]);
 
-    if (!apt) return <main>Loading...</main>;
+    if (loading) return <div>Loading apartment...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!apt) return <div>No apartment data.</div>;
 
     const handleFavorite = () => {
         if (!user) {
