@@ -23,7 +23,7 @@ const ApartmentShow = () => {
             try {
                 setLoading(true);
                 setError(null);
-                const res = await apartmentService.getApartment(apartmentId);
+                const res = await apartmentService.show(apartmentId);
                 const data = res?.data ?? res;
                 if (!data) throw new Error('Apartment not found (empty response).');
                 setApt(data);
