@@ -32,6 +32,10 @@ const Home = () => {
     navigate(`/cities/${city}`);
   };
 
+  const handleApartmentClick = (apartmentId) => {
+    navigate(`/apartments/${apartmentId}`);
+  };
+
   const getTopRatedApartments = (city) => {
     return apartments
       .filter(a => a.ApartmentCity === city)
@@ -53,9 +57,10 @@ const Home = () => {
         return (
           <section key={city}>
             <h2 onClick={() => handleCityClick(city)}> {city} </h2>
-
-            <div>
-              {cityApts.map((apt) => (
+            
+            {cityApts.map((apt) => (
+              <div key={apt._id} onClick={() => handleApartmentClick(apt._id)}>
+              
                 <div key={apt._id}>
                   <img
                     src={apt.ApartmentImg?.[0]?.url || '/placeholder.jpg'}
@@ -70,8 +75,9 @@ const Home = () => {
                     <p>❤️ {apt.FavoriteCount || 0} favorites</p>
                   </div>
                 </div>
+              </div>
               ))}
-            </div>
+            
           </section>
         );
       })}

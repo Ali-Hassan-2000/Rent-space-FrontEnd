@@ -13,7 +13,7 @@ import BookingForm from './components/bookingForm/bookingForm';
 import CityShow from './components/CityShow/CityShow';
 import UserBookings from './components/userBookings/userBookings';
 import ApartmentBookings from './components/apartmentBookings/apartmentBookings';
-
+import ApartmentList from './components/ApartmentList/ApartmentList';
 
 const App = () => {
   const { user } = useContext(UserContext);
@@ -28,15 +28,8 @@ const App = () => {
         <Route path='/sign-in' element={<SignInForm />} />
         <Route path='/apartments/new' element={<AddApartmentForm />} />
         <Route path='/booking/new' element={<BookingForm />} />
-        <Route path='/apartment/bookings' element={<ApartmentBookings/>}
-        {/*
-        <Route path='/apartments/:id' element={<ApartmentShow />} />
-        <Route path='/booking-form/:id' element={<BookingForm />} />
-        <Route path='/cities/:city' element={<CityShow />} />
-        */}
-        
+        <Route path='/apartment/bookings' element={<ApartmentBookings />}/>
 
-        
         <Route path= '*' element={<Navigate to = '/' replace />} />
       </Routes>
       <Footer />
