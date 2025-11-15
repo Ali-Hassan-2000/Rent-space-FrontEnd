@@ -19,11 +19,14 @@ const ApartmentShow = () => {
             setLoading(false);
       return;
         }
+      
+        fetchApt();
         
         const fetchApt = async () => {
             setLoading(true);
             setError(null)
             try{
+
                 const res = await apartmentService.getApartment(id);
             }
             catch (err){
