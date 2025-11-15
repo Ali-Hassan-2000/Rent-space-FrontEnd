@@ -10,7 +10,7 @@ const ApartmentShow = () => {
     const { user } = useContext(UserContext);
 
     const [apt, setApt] = useState(null);
-    const [startDate, setStartDtae] = useState('');
+    const [startDate, setStartDate] = useState('');
 
     useEffect(() => {
         fetch(`${API}/apartments/$[id]`)
