@@ -9,7 +9,6 @@ const ApartmentShow = () => {
     const { user } = useContext(UserContext);
 
     const [apt, setApt] = useState(null);
-    const [startDate, setStartDate] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -24,18 +23,14 @@ const ApartmentShow = () => {
             try {
                 setLoading(true);
                 setError(null);
-                const res = await apartmentService.show(apartmentId);
+                const res = await apartmentService.getApartment(apartmentId);
                 const data = res?.data ?? res;
-        if (!data) {
-          throw new Error('Apartment not found (empty response).');
-        }
-        setApt(data);
-            }
-            catch (err){
-                console.log(err)
-            }
-            finally {
-                setLoading(false)
+                if (!data) throw new Error('Apartment not found (empty response).');
+                setApt(data);
+            } catch (err) {
+                setError('Failed to load apartment')
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -58,7 +53,7 @@ const ApartmentShow = () => {
             navigate(`/sign-in?next=/apartments/${apartmentId}`);
             return;
         }
-        navigate(`/booking/new?apartmentId=${apartmentId}`);
+        navigate(`/booking-form/${apartmentId}`);
     };
 
     return (
@@ -80,20 +75,10 @@ const ApartmentShow = () => {
 
             <aside>
                 <div>
-                    <label>starting date</label>
-                    <br />
-                    <input
-                        type="date"
-                        value={startDate}
-                        onChange={(e) => setStartDate(e.target.value)}
-                    />
-                </div>
-
-                <div>
                     <h3>Apartment Price (per day)</h3>
                     <p>{apt.ApartmentPrice}</p>
                 </div>
-
+                
                 <button onClick={handleBookNow}>Book now</button>
             </aside>
         </main>
