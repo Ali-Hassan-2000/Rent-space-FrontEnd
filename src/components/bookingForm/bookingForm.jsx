@@ -101,7 +101,7 @@ const BEurl = import.meta.env.VITE_BACK_END_SERVER_URL;
         throw new Error(data.message || 'Booking failed');
       }
 
-      navigate(`/user-bookings/${user.id}`);
+      navigate(`/userbookings/${user._id}`);
     } catch (err) {
       setError(err.message || 'Booking failed. Please try again.');
     } finally {

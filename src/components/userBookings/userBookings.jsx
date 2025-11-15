@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
-const userBookings = ({userId}) => {
+const userBookings = () => {
   const { user } = useContext(UserContext);
   const [bookings,setBookings] = useState([])
 const [loading,setLoading] = useState(false)
@@ -18,7 +18,7 @@ const BEurl = import.meta.env.VITE_BACK_END_SERVER_URL
 useEffect(() => {
     if (!user) return;
     fetchUserBookings() 
-},[userId])
+},[user])
 const fetchUserBookings = async () => {
   try{
     setLoading(true)
@@ -51,7 +51,7 @@ const fetchUserBookings = async () => {
     const end = new Date(endDate);
     return Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
   };
-    if (!user || !userId) {
+    if (!user) {
     return (
       <main className="user-bookings-container">
         <p>Please sign in to view your bookings.</p>
@@ -110,7 +110,7 @@ const fetchUserBookings = async () => {
 
               <div className="detail-row">
                 <span className="label">Nights</span>
-                <span className="value">{calculateNights(booking.startDate, booking.endDate)}</span>
+                <span className="value">{calcNights(booking.startDate, booking.endDate)}</span>
               </div>
 
               <div className="detail-row">
