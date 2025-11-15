@@ -10,8 +10,8 @@ const ApartmentShow = () => {
     const { user } = useContext(UserContext);
 
     const [apt, setApt] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [startDate, setStartDtae] = useState('');
+
     useEffect(() => {
         if (!id) {
             setError('No apartment id provided in route params.');
