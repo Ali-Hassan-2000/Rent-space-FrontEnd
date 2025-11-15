@@ -120,7 +120,7 @@ const getByCity = async (city) => {
   }
 };
 
-export { 
+export default { 
     index, 
     create, 
     update, 
