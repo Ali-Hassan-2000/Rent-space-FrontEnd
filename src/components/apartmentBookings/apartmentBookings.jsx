@@ -1,11 +1,10 @@
 import { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../../contexts/UserContext';
-import './ApartmentBookings.css';
 
 const ApartmentBookings = ({ apartmentId }) => {
   const { user } = useContext(UserContext);
   const [bookings, setBookings] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const BEurl = import.meta.env.VITE_BACK_END_SERVER_URL;
@@ -15,23 +14,20 @@ const ApartmentBookings = ({ apartmentId }) => {
     if (!token) throw new Error('No authentication token found');
 
     return {
-      'Authorization': `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     };
   };
-  useEffect(()=> {
-    if (!apartmentId) return;
-    fetchApartmentBooking();
-  },[apartmentId]);
-}
-const fetchApartmentBooking = async () => {
+
+  const fetchApartmentBookings = async () => {
     try {
-      setIsLoading(true);
+      setLoading(true);
       setError('');
 
       const headers = getAuthHeaders();
+      // backend route for apartment bookings
       const res = await fetch(
-        `${backendUrl}/apartmentBookings/${apartmentId}`,
+        `${BEurl}/bookings/apartmentBookings/${apartmentId}`,
         { headers }
       );
 
@@ -46,9 +42,17 @@ const fetchApartmentBooking = async () => {
       console.error('Error fetching apartment bookings:', err);
       setError(err.message || 'Failed to load bookings');
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
-    const formatDate = (dateString) => {
+  };
+
+  useEffect(() => {
+    if (!apartmentId) return;
+    fetchApartmentBookings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [apartmentId]);
+
+  const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
@@ -63,7 +67,8 @@ const fetchApartmentBooking = async () => {
   const calcTotalRevenue = () => {
     return bookings.reduce((total, booking) => total + booking.totalPrice, 0);
   };
-  if (isLoading) {
+
+  if (loading) {
     return (
       <div className='apartment-container'>
         <p>Loading bookings...</p>
@@ -82,7 +87,7 @@ const fetchApartmentBooking = async () => {
     );
   }
 
-  if (bookings.length === 0) {
+  if (!bookings || bookings.length === 0) {
     return (
       <div className='apartment-container'>
         <h2>Apartment Bookings</h2>
@@ -90,7 +95,8 @@ const fetchApartmentBooking = async () => {
       </div>
     );
   }
-  return(
+
+  return (
     <div className="apartment-container">
       <h2>Apartment Bookings</h2>
 
@@ -101,7 +107,7 @@ const fetchApartmentBooking = async () => {
         </div>
         <div className="summary-card">
           <span className="label">Total Revenue</span>
-          <span className="value">${calculateTotalRevenue()}</span>
+          <span className="value">${calcTotalRevenue()}</span>
         </div>
       </div>
 
@@ -121,7 +127,7 @@ const fetchApartmentBooking = async () => {
               <tr key={index}>
                 <td>{formatDate(booking.startDate)}</td>
                 <td>{formatDate(booking.endDate)}</td>
-                <td>{calculateNights(booking.startDate, booking.endDate)}</td>
+                <td>{calcNights(booking.startDate, booking.endDate)}</td>
                 <td className="price">${booking.totalPrice}</td>
                 <td>
                   <span className="status-badge">Confirmed</span>
@@ -132,5 +138,7 @@ const fetchApartmentBooking = async () => {
         </table>
       </div>
     </div>
-  )
+  );
 };
+
+export default ApartmentBookings;
