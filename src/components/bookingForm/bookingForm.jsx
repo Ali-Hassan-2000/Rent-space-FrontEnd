@@ -1,14 +1,17 @@
 import { useState, useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { DateRange } from 'react-date-range';
 import { UserContext } from '../../contexts/UserContext';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import './bookingForm.css';
 
-const BookingForm = ({ apartmentId, apartmentPrice }) => {
+import * as apartmentService from '../../services/apartmentService';
+
+const BookingForm = ({ apartmentId: propApartmentId, apartmentPrice: propApartmentPrice }) => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   
   const [dateRange, setDateRange] = useState([
     {
@@ -17,6 +20,7 @@ const BookingForm = ({ apartmentId, apartmentPrice }) => {
       key: 'selection',
     },
   ]);
+  const [apartmentPrice, setApartmentPrice] = useState(propApartmentPrice || 0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -35,17 +39,40 @@ const BookingForm = ({ apartmentId, apartmentPrice }) => {
  
 const BEurl = import.meta.env.VITE_BACK_END_SERVER_URL;
 
+  // derive apartmentId from prop or query param
+  const apartmentId = propApartmentId || searchParams.get('apartmentId');
+
+  // fetch apartmentPrice if not provided
+  useEffect(() => {
+    let mounted = true;
+    const loadPrice = async () => {
+      if (!propApartmentPrice && apartmentId) {
+        try {
+          const res = await apartmentService.show(apartmentId);
+          const data = res?.data ?? res;
+          if (mounted && data) setApartmentPrice(data.ApartmentPrice || data.price || 0);
+        } catch (err) {
+          console.error('Failed to load apartment price', err);
+        }
+      }
+    };
+    loadPrice();
+    return () => { mounted = false; };
+  }, [propApartmentPrice, apartmentId]);
+
   // Fetch booked dates on component mount
   useEffect(() => {
+    if (!apartmentId) return;
     fetchBookedDates();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apartmentId]);
 
   const fetchBookedDates = async () => {
     try {
       setLoadingBookedDates(true);
-      const res = await fetch(
-        `${BEurl}/apartment/${apartmentId}/bookedDates`
-      );
+        const res = await fetch(
+          `${BEurl}/apartments/apartment/${apartmentId}/bookedDates`
+        );
 
       if (!res.ok) {
         throw new Error('Failed to fetch booked dates');
@@ -60,7 +87,7 @@ const BEurl = import.meta.env.VITE_BACK_END_SERVER_URL;
   // Calculate total price based on date range
   const calculateTotalPrice = (start, end) => {
     const days = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
-    return Math.max(1, days) * apartmentPrice;
+    return Math.max(1, days) * (apartmentPrice || 0);
   };
 
   const handleDateChange = (item) => {
