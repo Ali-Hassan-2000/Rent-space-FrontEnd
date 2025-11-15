@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { index as getApartments } from '../../services/apartmentService';
+import { index } from '../../services/apartmentService';
 
 const Home = () => {
   const [apartments, setApartments] = useState([]);
@@ -12,7 +12,7 @@ const Home = () => {
   useEffect(() => {
     const fetchApartments = async () => {
       try {
-        const data = await getApartments();
+        const data = await index();
         setApartments(data);
 
         const uniqueCities = [...new Set(data.map(a => a.ApartmentCity))];

@@ -14,6 +14,7 @@ const AddApartmentForm = () => {
     ApartmentDescription: '',
     ApartmentOffering: [],
     ApartmentCity: '',
+    ApartmentImg: null,
   });
 
   const [images, setImages] = useState([]);
@@ -21,13 +22,13 @@ const AddApartmentForm = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const offeringOptions = [
-    'Hair dryer', 'TV', 'Air conditioning', 'Smoke alarm', 'Fire extinguisher',
-    'First aid kit', 'Wifi', 'Kitchen', 'Fire pit', 'Outdoor dining area',
-    'BBQ grill', 'Free parking on premises', 'Pets allowed', 'Smoking allowed',
-    'Self check-in', 'Smart lock', 'Exterior security cameras on property',
-    'Washer', 'Dryer', 'Essentials', 'Carbon monoxide alarm', 'Heating', 'Hot water'
-  ];
+  //const offeringOptions = [
+  //  'Hair dryer', 'TV', 'Air conditioning', 'Smoke alarm', 'Fire extinguisher',
+  //  'First aid kit', 'Wifi', 'Kitchen', 'Fire pit', 'Outdoor dining area',
+  //  'BBQ grill', 'Free parking on premises', 'Pets allowed', 'Smoking allowed',
+  //  'Self check-in', 'Smart lock', 'Exterior security cameras on property',
+  //  'Washer', 'Dryer', 'Essentials', 'Carbon monoxide alarm', 'Heating', 'Hot water'
+  //];
 
   const cityOptions = [
     'Manama', 'Muharraq', 'Riffa', 'Hamad Town', 'Aali', 'Isa Town', 'Sitra',
@@ -44,14 +45,13 @@ const AddApartmentForm = () => {
     }));
   };
 
-  const toggleOffering = (offer, checked) => {
-    setFormData(prev => ({
-      ...prev,
-      ApartmentOffering: checked
-        ? [...prev.ApartmentOffering, offer]
-        : prev.ApartmentOffering.filter(o => o !== offer)
-    }));
-  };
+  //const toggleOffering = (offer, checked) => {
+  //  setFormData(prev => ({
+  //    ...prev, ApartmentOffering: checked
+  //      ? [...prev.ApartmentOffering, offer]
+  //      : prev.ApartmentOffering.filter(o => o !== offer)
+  //  }));
+  //};
 
   const handleImageChange = (e) => {
     setImages(prev => [...prev, ...e.target.files]);
@@ -65,21 +65,24 @@ const AddApartmentForm = () => {
 
     try {
      
-      const data = new FormData();
-      
+      //const data = formData;
       for (const key in formData) {
         if (Array.isArray(formData[key])) {
-          formData[key].forEach((val) => data.append(key, val));
+          formData[key].forEach((val) => setFormData(key, val));
         } else {
-          data.append(key, formData[key]);
+          setFormData(key, formData[key]);
         }
       }
-     
-      images.forEach((img) => {
-        data.append('ApartmentImg', img);
-      });
+      
+      console.log(images)
+      setFormData(prev => ({
+        ...prev,
+        ApartmentImg: images
+      }));
 
-      await create(data);
+      console.log(formData)
+
+      await create(formData);
       navigate('/');
     } catch (err) {
       setError(err.message);
@@ -99,9 +102,9 @@ const AddApartmentForm = () => {
       {error && <p> {error} </p>}
       {success && <p> {success} </p>}
 
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
+      <form onSubmit={handleSubmit} enctype="multipart/form-data">
 
-        <label for="ApartmentName">Apartment name:</label>
+        <label htmlFor="ApartmentName">Apartment name:</label>
       	<input 
           type="text" 
           id="ApartmentName" 
@@ -111,7 +114,7 @@ const AddApartmentForm = () => {
           required
         />
 
-        <label for="ApartmentPrice">Item price:</label>
+        <label htmlFor="ApartmentPrice">Item price:</label>
       	<input 
           type="number" 
           id="ApartmentPrice" 
@@ -122,7 +125,7 @@ const AddApartmentForm = () => {
           required
         />
 
-        <label for="ApartmentDescription">Item description:</label>
+        <label htmlFor="ApartmentDescription">Item description:</label>
       	<textarea 
           id="ApartmentDescription"
           name="ApartmentDescription"
@@ -131,8 +134,8 @@ const AddApartmentForm = () => {
           required
         ></textarea>
 
-        <label>Offerings</label>
-        <div>
+        {/* <label>Offerings</label> */}
+        {/* <div>
           {offeringOptions.map((offer) => (
             <label key={offer}>
               <input
@@ -144,7 +147,7 @@ const AddApartmentForm = () => {
               <span>{offer}</span>
             </label>
           ))}
-        </div>
+        </div> */}
 
 
         <label>City / Village</label>
@@ -165,16 +168,16 @@ const AddApartmentForm = () => {
           </select>
 
 
-          <label for="ApartmentImg1">Apartment img 1:</label>
+          <label htmlFor="ApartmentImg1">Apartment img 1:</label>
           <input type="file" id="ApartmentImg1" name="ApartmentImg" accept="image/*" onChange={handleImageChange} required/>
 
-          <label for="ApartmentImg2">Apartment img 2:</label>
+          <label htmlFor="ApartmentImg2">Apartment img 2:</label>
           <input type="file" id="ApartmentImg2" name="ApartmentImg" accept="image/*" onChange={handleImageChange}/>
 
-          <label for="ApartmentImg3">Apartment img 3:</label>
+          <label htmlFor="ApartmentImg3">Apartment img 3:</label>
           <input type="file" id="ApartmentImg3" name="ApartmentImg" accept="image/*" onChange={handleImageChange}/>
 
-          <label for="ApartmentImg4">Apartment img 4:</label>
+          <label htmlFor="ApartmentImg4">Apartment img 4:</label>
           <input type="file" id="ApartmentImg4" name="ApartmentImg" accept="image/*" onChange={handleImageChange}/>
 
         <button

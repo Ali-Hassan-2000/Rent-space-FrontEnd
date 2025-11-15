@@ -9,7 +9,7 @@ import SignInForm from './components/SignInForm/SignInForm';
 import Footer from './components/Footer/Footer';
 import AddApartmentForm from './components/AddApartment/AddApartmentForm';
 import ApartmentShow from './components/ApartmentShow/ApartmentShow';
-import BookingForm from './components/bookingForm/bookingForm';
+// import BookingForm from './components/bookingForm/bookingForm';
 import CityShow from './components/CityShow/CityShow';
 import UserBookings from './components/userBookings/userBookings';
 import ApartmentBookings from './components/apartmentBookings/apartmentBookings';
@@ -28,7 +28,7 @@ const App = () => {
         <Route path='/apartments/new' element={<AddApartmentForm />} />
         <Route path='/apartments/:apartmentId' element={<ApartmentShow />} />
         <Route path='/apartments/:apartmentId/bookings' element={<ApartmentBookings />} />
-        <Route path='/booking/new' element={<BookingForm />} />
+        {/* <Route path='/booking/new' element={<BookingForm />} /> */}
         <Route path='/bookings' element={<UserBookings />} />
         <Route path='/apartment-list' element={<ApartmentList />} />
         <Route path='/cities/:city' element={<CityShow />}/>
