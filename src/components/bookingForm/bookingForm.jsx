@@ -33,7 +33,7 @@ const BookingForm = ({ apartmentId, apartmentPrice }) => {
   };
 
  
-const backendUrl = import.meta.env.VITE_BACK_END_SERVER_URL;
+const BEurl = import.meta.env.VITE_BACK_END_SERVER_URL;
 
   // Fetch booked dates on component mount
   useEffect(() => {
@@ -44,7 +44,7 @@ const backendUrl = import.meta.env.VITE_BACK_END_SERVER_URL;
     try {
       setLoadingBookedDates(true);
       const res = await fetch(
-        `${backendUrl}/apartments/apartment/${apartmentId}/bookedDates`
+        `${BEurl}/apartments/apartment/${apartmentId}/bookedDates`
       );
 
       if (!res.ok) {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
-import { userContext } from 'react';
+import { useContext } from 'react';
 import { UserContext } from '../../contexts/UserContext';
 
 

@@ -1,7 +1,9 @@
 import { useState, useContext, useEffect } from 'react';
+import { useParams } from 'react-router';
 import { UserContext } from '../../contexts/UserContext';
 
-const ApartmentBookings = ({ apartmentId }) => {
+const ApartmentBookings = () => {
+  const { apartmentId } = useParams();
   const { user } = useContext(UserContext);
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(false);
