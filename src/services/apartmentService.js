@@ -118,7 +118,7 @@ const getByCity = async (city) => {
   }
 };
 
-export default { 
+export { 
     index, 
     create, 
     update, 
