@@ -1,12 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
-const UserBookings = () => {
-  const { user } = useContext(UserContext);
-  const [bookings,setBookings] = useState([])
-const [loading,setLoading] = useState(false)
-const [err,setErr] = useState('')
-const BEurl = import.meta.env.VITE_BACK_END_SERVER_URL
-  const getAuthHeaders = () => {
+const getAuthHeaders = () => {
     const token = localStorage.getItem('token');
     if (!token) throw new Error('No authentication token found');
 
@@ -15,10 +9,21 @@ const BEurl = import.meta.env.VITE_BACK_END_SERVER_URL
       'Content-Type': 'application/json',
     };
   };
+const BEurl = import.meta.env.VITE_BACK_END_SERVER_URL
+const UserBookings = () => {
+  const { user } = useContext(UserContext);
+  const params = useParams();
+   const userIdFromRoute = params.userId;
+  const userId = user?._id ?? userIdFromRoute;
+  const [bookings,setBookings] = useState([])
+const [loading,setLoading] = useState(false)
+const [err,setErr] = useState('')
+
+  
 useEffect(() => {
-    if (!user) return;
+    if (!userId) return;
     fetchUserBookings() 
-},[user])
+},[userId])
 const fetchUserBookings = async () => {
   try{
     setLoading(true)
