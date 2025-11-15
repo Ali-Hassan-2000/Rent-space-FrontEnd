@@ -50,13 +50,11 @@ const create = async (formData) => {
 // Update apartment by ID
 const update = async (apartmentId, formData) => {
   try {
-    const headers = getAuthHeaders();
+    const token = localStorage.getItem('token');
 
     const res = await fetch(`${BASE_URL}/apartment/${apartmentId}`, {
       method: 'PUT',
-      headers: {
-        ...headers,
-      },
+      headers: { Authorization: `Bearer ${token}`},
       body: formData,
     });
 
@@ -73,11 +71,11 @@ const update = async (apartmentId, formData) => {
 // Delete apartment by ID
 const destroy = async (apartmentId) => {
   try {
-    const headers = getAuthHeaders();
+    const token = localStorage.getItem('token');
 
     const res = await fetch(`${BASE_URL}/apartment/${apartmentId}`, {
       method: 'DELETE',
-      headers,
+      headers: { Authorization: `Bearer ${token}`},
     });
 
     const data = await res.json();
