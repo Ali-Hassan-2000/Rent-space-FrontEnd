@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { useContext } from 'react';
 import { UserContext } from '../../contexts/UserContext';
-import * as apartmentService from '../../services/apartmentService'
+import * as apartmentService from '../../services/apartmentService';
 
 const ApartmentShow = () => {
     const {id} = useParams();
@@ -10,7 +10,8 @@ const ApartmentShow = () => {
     const { user } = useContext(UserContext);
 
     const [apt, setApt] = useState(null);
-    const [startDate, setStartDtae] = useState('');
+     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         if (!id) {
@@ -18,19 +19,22 @@ const ApartmentShow = () => {
             setLoading(false);
       return;
         }
-        fetchApt();
         
         const fetchApt = async () => {
             setLoading(true);
             setError(null)
             try{
-                const res = await apartmentService.getApartment
+                const res = await apartmentService.getApartment(id);
             }
             catch (err){
-
+                console.log(err)
             }
-        }
-    }, [id]);
+            finally {
+                setLoading(false)
+            }
+        };
+        fetchApt();
+         }, [id]);
 
     if (!apt) return <main>Loading...</main>;
 
@@ -46,7 +50,7 @@ const ApartmentShow = () => {
             navigate (`/sign-in?next=/apartments${id}`);
             return
         }
-        navigate(`/booking-form/${id}`);
+        navigate(`/booking/new?apartmentId=${apartmentId}`);
     };
 
     return (
