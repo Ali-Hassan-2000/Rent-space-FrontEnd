@@ -22,15 +22,17 @@ const App = () => {
     <>
       <NavBar />
       <Routes>
-          <Route path='/' element={<Home/>}/>
-
+        <Route path='/' element={<Home/>}/>
         <Route path='/sign-up' element={<SignUpForm />} />
         <Route path='/sign-in' element={<SignInForm />} />
         <Route path='/apartments/new' element={<AddApartmentForm />} />
+        <Route path='/apartments/:apartmentId' element={<ApartmentShow />} />
+        <Route path='/apartments/:apartmentId/bookings' element={<ApartmentBookings />} />
         <Route path='/booking/new' element={<BookingForm />} />
-        <Route path='/apartment/bookings' element={<ApartmentBookings />}/>
-
-        <Route path= '*' element={<Navigate to = '/' replace />} />
+        <Route path='/bookings' element={<UserBookings />} />
+        <Route path='/apartment-list' element={<ApartmentList />} />
+        <Route path='/cities/:city' element={<CityShow />}/>
+        <Route path='*' element={<Navigate to='/' replace />} />
       </Routes>
       <Footer />
     </>
