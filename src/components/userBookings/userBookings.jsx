@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
-const userBookings = () => {
+const UserBookings = () => {
   const { user } = useContext(UserContext);
   const [bookings,setBookings] = useState([])
 const [loading,setLoading] = useState(false)
@@ -24,9 +24,7 @@ const fetchUserBookings = async () => {
     setLoading(true)
     setErr('')
     const headers = getAuthHeaders();
-    const res = await fetch(`${BEurl}/userBookings/${userId}`,
-      {headers,
-      });
+    const res = await fetch(`${BEurl}/bookings/userBookings/${user.id}`, { headers });
       const data = await res.json();
       if (!res.ok) {
         throw new Error(data.message || 'Failed to fetch bookings');
@@ -130,4 +128,4 @@ const fetchUserBookings = async () => {
   
 
 }
-export default userBookings;
+export default UserBookings;
