@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { DateRange } from 'react-date-range';
 import { UserContext } from '../../contexts/UserContext';
 import 'react-date-range/dist/styles.css';
@@ -89,7 +89,7 @@ const BEurl = import.meta.env.VITE_BACK_END_SERVER_URL;
     try {
       const headers = getAuthHeaders();
 
-      const res = await fetch(`${backendUrl}/bookings`, {
+      const res = await fetch(`${BEurl}/bookings`, {
         method: 'POST',
         headers,
         body: JSON.stringify(bookingData),
@@ -101,7 +101,7 @@ const BEurl = import.meta.env.VITE_BACK_END_SERVER_URL;
         throw new Error(data.message || 'Booking failed');
       }
 
-      navigate(`/userbookings/${user._id}`);
+      navigate(`/bookings`);
     } catch (err) {
       setError(err.message || 'Booking failed. Please try again.');
     } finally {

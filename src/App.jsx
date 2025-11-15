@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from './contexts/UserContext';
 
@@ -9,7 +9,7 @@ import SignInForm from './components/SignInForm/SignInForm';
 import Footer from './components/Footer/Footer';
 import AddApartmentForm from './components/AddApartment/AddApartmentForm';
 import ApartmentShow from './components/ApartmentShow/ApartmentShow';
-// import BookingForm from './components/bookingForm/bookingForm';
+import BookingForm from './components/bookingForm/bookingForm.jsx';
 import CityShow from './components/CityShow/CityShow';
 import UserBookings from './components/userBookings/userBookings';
 import ApartmentBookings from './components/apartmentBookings/apartmentBookings';
