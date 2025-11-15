@@ -7,9 +7,8 @@ const ApartmentList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const navigate = useNavigate();    
-}
 
-
+  
 useEffect(() => {
     (async () => {
         try {
@@ -22,4 +21,28 @@ useEffect(() => {
         }
     })();
 }, []);
+
+const open = (id) => navigate(`/apartments/${id}`);
+
+if (loading) return <main>Loading...</main>;
+if (error) return <main>{error}</main>;
+if (items.length === 0) return <main>No apartments available</main>;
+
+return (
+        <main>
+            <h1>All Apartments</h1>
+            <ul>
+                {items.map((a) => (
+                    <li key={a._id}>
+                        <button onClick={() => open(a._id)}>
+                            {a.ApartmentName} - {a.ApartmentCity} - ${a.ApartmentPrice} - {a.ApartmentRating || 'N/A'}
+                        </button>
+                    </li>
+                ))}
+            </ul>
+            </main>
+);
+};
+export default ApartmentList;
+
 
