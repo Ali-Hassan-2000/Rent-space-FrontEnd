@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { useContext } from 'react';
 import { UserContext } from '../../contexts/UserContext';
-
+import * as apartmentService from '../../services/apartmentService'
 
 const ApartmentShow = () => {
     const {id} = useParams();
@@ -10,12 +10,26 @@ const ApartmentShow = () => {
     const { user } = useContext(UserContext);
 
     const [apt, setApt] = useState(null);
-    const [startDate, setStartDtae] = useState('');
-
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     useEffect(() => {
-        fetch(`${API}/apartments/$[id]`)
-        .then((res) => res.json())
-        .then((data) => setApt(data));
+        if (!id) {
+            setError('No apartment id provided in route params.');
+            setLoading(false);
+      return;
+        }
+        fetchApt();
+        
+        const fetchApt = async () => {
+            setLoading(true);
+            setError(null)
+            try{
+                const res = await apartmentService.getApartment
+            }
+            catch (err){
+
+            }
+        }
     }, [id]);
 
     if (!apt) return <main>Loading...</main>;
