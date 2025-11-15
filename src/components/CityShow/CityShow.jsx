@@ -1,31 +1,36 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-
+import { useParams, useNavigate } from 'react-router';
+import { index as getApartments } from '../../services/apartmentService';
 
 const CityShow = () => {
     const {city} = useParams();
     const navigate = useNavigate();
+
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     
     
 
     useEffect(() => { 
-        fetch(`apartments`)
-        .then(r => r.json())
-        .then((d) => {
-            const filtered = Array.isArray(d)
-            ? d.filter(
-            (apt) =>
-                apt.ApartmentCity &&
-            apt.ApartmentCity.toLowerCase() === city.toLowerCase()
-        )
-        : [];
-        setItems(filtered);
-        setLoading(false);
-        })
+        (async () => {
+            try {
+                const data  = await getApartments();
+                const filtered = Array.isArray(data)
+                ? data.filter(
+                    (apt) =>
+                        apt.ApartmentCity &&
+                        apt.ApartmentCity.toLowerCase() === city.toLowerCase()
+                )
+            : [];
+            
 
-        .catch(() => setLoading(false));
+        setItems(filtered);
+            } catch (err) {
+                setItems([]);
+            } finally {
+                setLoading(false);
+            }
+        })();
     }, [city]);
 
     if (loading) return <main>Loading...</main>;
