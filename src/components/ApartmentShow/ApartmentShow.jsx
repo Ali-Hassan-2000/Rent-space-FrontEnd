@@ -5,7 +5,7 @@ import { UserContext } from '../../contexts/UserContext';
 import * as apartmentService from '../../services/apartmentService';
 
 const ApartmentShow = () => {
-    const {id} = useParams();
+    const { id } = useParams();
     const navigate = useNavigate();
     const { user } = useContext(UserContext);
 
