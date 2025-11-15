@@ -8,7 +8,7 @@ const ApartmentList = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();    
 
-  
+
 useEffect(() => {
     (async () => {
         try {
@@ -21,7 +21,7 @@ useEffect(() => {
         }
     })();
 }, []);
-
+    
 const open = (id) => navigate(`/apartments/${id}`);
 
 if (loading) return <main>Loading...</main>;

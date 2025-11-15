@@ -44,7 +44,7 @@ const BEurl = import.meta.env.VITE_BACK_END_SERVER_URL;
     try {
       setLoadingBookedDates(true);
       const res = await fetch(
-        `${BEurl}/apartments/apartment/${apartmentId}/bookedDates`
+        `${BEurl}/apartment/${apartmentId}/bookedDates`
       );
 
       if (!res.ok) {
