@@ -1,17 +1,15 @@
 import { useState, useContext, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { DateRange } from 'react-date-range';
 import { UserContext } from '../../contexts/UserContext';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import './bookingForm.css';
-
-import * as apartmentService from '../../services/apartmentService';
-
-const BookingForm = ({ apartmentId: propApartmentId, apartmentPrice: propApartmentPrice }) => {
+const BEurl = import.meta.env.VITE_BACK_END_SERVER_URL;
+const BookingForm = ({ apartmentId, apartmentPrice }) => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  
   
   const [dateRange, setDateRange] = useState([
     {
@@ -20,7 +18,6 @@ const BookingForm = ({ apartmentId: propApartmentId, apartmentPrice: propApartme
       key: 'selection',
     },
   ]);
-  const [apartmentPrice, setApartmentPrice] = useState(propApartmentPrice || 0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -35,36 +32,10 @@ const BookingForm = ({ apartmentId: propApartmentId, apartmentPrice: propApartme
       'Content-Type': 'application/json',
     };
   };
-
- 
-const BEurl = import.meta.env.VITE_BACK_END_SERVER_URL;
-
-  // derive apartmentId from prop or query param
-  const apartmentId = propApartmentId || searchParams.get('apartmentId');
-
-  // fetch apartmentPrice if not provided
-  useEffect(() => {
-    let mounted = true;
-    const loadPrice = async () => {
-      if (!propApartmentPrice && apartmentId) {
-        try {
-          const res = await apartmentService.show(apartmentId);
-          const data = res?.data ?? res;
-          if (mounted && data) setApartmentPrice(data.ApartmentPrice || data.price || 0);
-        } catch (err) {
-          console.error('Failed to load apartment price', err);
-        }
-      }
-    };
-    loadPrice();
-    return () => { mounted = false; };
-  }, [propApartmentPrice, apartmentId]);
-
-  // Fetch booked dates on component mount
+  
   useEffect(() => {
     if (!apartmentId) return;
-    fetchBookedDates();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchBookedDates(); 
   }, [apartmentId]);
 
   const fetchBookedDates = async () => {
@@ -85,14 +56,14 @@ const BEurl = import.meta.env.VITE_BACK_END_SERVER_URL;
   };
 
   // Calculate total price based on date range
-  const calculateTotalPrice = (start, end) => {
+  const calcTotalPrice = (start, end) => {
     const days = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
     return Math.max(1, days) * (apartmentPrice || 0);
   };
 
   const handleDateChange = (item) => {
     setDateRange([item.selection]);
-    const price = calculateTotalPrice(item.selection.startDate, item.selection.endDate);
+    const price = calcTotalPrice(item.selection.startDate, item.selection.endDate);
     setTotalPrice(price);
   };
 
@@ -128,7 +99,7 @@ const BEurl = import.meta.env.VITE_BACK_END_SERVER_URL;
         throw new Error(data.message || 'Booking failed');
       }
 
-      navigate(`/bookings`);
+     navigate(`/userBookings/${user._id}`);
     } catch (err) {
       setError(err.message || 'Booking failed. Please try again.');
     } finally {
