@@ -1,33 +1,30 @@
-import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router';
-import { useContext } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../contexts/UserContext';
 import * as apartmentService from '../../services/apartmentService';
 
 const ApartmentShow = () => {
-    const { id } = useParams();
+    const { apartmentId } = useParams();
     const navigate = useNavigate();
     const { user } = useContext(UserContext);
 
     const [apt, setApt] = useState(null);
-     const [loading, setLoading] = useState(true);
+    const [startDate, setStartDate] = useState('');
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        if (!id) {
+        if (!apartmentId) {
             setError('No apartment id provided in route params.');
             setLoading(false);
-      return;
+            return;
         }
-      
-        fetchApt();
-        
-        const fetchApt = async () => {
-            setLoading(true);
-            setError(null)
-            try{
 
-                const res = await apartmentService.getApartment(id);
+        const fetchApt = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+                const res = await apartmentService.getApartment(apartmentId);
                 const data = res?.data ?? res;
         if (!data) {
           throw new Error('Apartment not found (empty response).');
@@ -41,24 +38,25 @@ const ApartmentShow = () => {
                 setLoading(false)
             }
         };
+
         fetchApt();
-         }, [id]);
+    }, [apartmentId]);
 
     if (loading) return <div>Loading apartment...</div>;
-  if (error) return <div>Error: {error}</div>;
-  if (!apt) return <div>No apartment data.</div>;
+    if (error) return <div>Error: {error}</div>;
+    if (!apt) return <div>No apartment data.</div>;
 
     const handleFavorite = () => {
         if (!user) {
-            navigate (`/sign-in?next=/apartments${id}`);
+            navigate(`/sign-in?next=/apartments/${apartmentId}`);
             return;
         }
     };
 
     const handleBookNow = () => {
         if (!user) {
-            navigate (`/sign-in?next=/apartments${id}`);
-            return
+            navigate(`/sign-in?next=/apartments/${apartmentId}`);
+            return;
         }
         navigate(`/booking/new?apartmentId=${apartmentId}`);
     };
@@ -82,11 +80,12 @@ const ApartmentShow = () => {
 
             <aside>
                 <div>
-                    <label>starting date</label><br />
+                    <label>starting date</label>
+                    <br />
                     <input
-                    type="data"
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
+                        type="date"
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
                     />
                 </div>
 
@@ -99,7 +98,6 @@ const ApartmentShow = () => {
             </aside>
         </main>
     );
-
 };
 
 export default ApartmentShow;
