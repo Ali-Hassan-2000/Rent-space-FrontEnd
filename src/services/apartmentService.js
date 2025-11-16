@@ -34,9 +34,10 @@ const create = async (formData) => {
       headers: { Authorization: `Bearer ${token}`},
       body: formData,
     });
+    console.log(res)
 
     const data = await res.json();
-
+    console.log(data)
     if (!res.ok) throw new Error(data.err || 'Failed to create apartment');
     
     return data;
