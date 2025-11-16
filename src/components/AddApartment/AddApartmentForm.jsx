@@ -94,8 +94,9 @@ const AddApartmentForm = () => {
 
       Array.from(formData.ApartmentImg).forEach((img) => {
         data.append("ApartmentImg", img);
+        console.log(img)
       });
-      console.log(ApartmentImg)
+      console.log(formData.ApartmentImg)
       console.log(data)
       
       await create(data);
