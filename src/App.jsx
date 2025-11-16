@@ -32,7 +32,7 @@ const App = () => {
         <Route path='/apartments/:apartmentId/bookings' element={<ApartmentBookings />} />
         <Route path="/booking/:apartmentId" element={<BookingForm />} />
         <Route path='/userBookings/:userId' element={<UserBookings />} />
-        <Route path='/apartment-list' element={<ApartmentList />} />
+        <Route path="/apartments" element={<ApartmentList />} />
         <Route path='/cities/:city' element={<CityShow />}/>
         <Route path='*' element={<Navigate to='/' replace />} />
       </Routes>
