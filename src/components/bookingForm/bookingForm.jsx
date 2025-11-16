@@ -87,13 +87,20 @@ const BookingForm = ({ apartmentId, apartmentPrice }) => {
     try {
       const headers = getAuthHeaders();
 
-      const res = await fetch(`${BEurl}/bookings`, {
+      const res = await fetch(`${BEurl}/apartments`, {
         method: 'POST',
         headers,
         body: JSON.stringify(bookingData),
       });
 
-      const data = await res.json();
+      let data;
+
+try {
+  data = await res.json();
+} catch (e) {
+  const text = await res.text();
+  throw new Error("Server returned non-JSON response: " + text.slice(0, 100));
+}
 
       if (!res.ok) {
         throw new Error(data.message || 'Booking failed');
