@@ -74,15 +74,6 @@ const UpdateApartmentForm = () => {
       return;
     }
 
-    //if (name === "offeringOptions") {
-    //  setFormData(prev => ({
-    //    ...prev,
-    //    offeringOptions: checked
-    //      ? [...prev.offeringOptions, value]
-    //      : prev.offeringOptions.filter((o) => o !== value)
-    //  }));
-    //  return;
-
     if (name === "offeringOptions") {
       setFormData(prev => {
         
@@ -196,6 +187,7 @@ const UpdateApartmentForm = () => {
                 type="checkbox"
                 value={offer}
                 name="offeringOptions"
+                checked={formData.offeringOptions.includes(offer)}
                 onChange={handleChange}
               />
               <span>{offer}</span>
@@ -238,7 +230,7 @@ const UpdateApartmentForm = () => {
           type="submit"
           disabled={loading}
         >
-          {loading ? 'Uploading...' : 'Add Apartment'}
+          {loading ? 'Uploading...' : 'Update Apartment'}
         </button>
       </form>
     </div>
