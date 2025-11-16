@@ -87,7 +87,7 @@ const BookingForm = ({ apartmentId, apartmentPrice }) => {
     try {
       const headers = getAuthHeaders();
 
-      const res = await fetch(`${BEurl}/apartments`, {
+      const res = await fetch(`${BEurl}/apartments/booking`, {
         method: 'POST',
         headers,
         body: JSON.stringify(bookingData),
