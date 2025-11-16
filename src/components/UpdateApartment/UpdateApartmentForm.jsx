@@ -187,7 +187,6 @@ const UpdateApartmentForm = () => {
                 type="checkbox"
                 value={offer}
                 name="offeringOptions"
-                checked={formData.offeringOptions.includes(offer)}
                 onChange={handleChange}
               />
               <span>{offer}</span>
