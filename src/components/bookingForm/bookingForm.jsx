@@ -37,6 +37,11 @@ const BookingForm = ({ apartmentId, apartmentPrice }) => {
     if (!apartmentId) return;
     fetchBookedDates(); 
   }, [apartmentId]);
+useEffect(() => {
+    const start = dateRange[0].startDate;
+    const end = dateRange[0].endDate;
+    setTotalPrice(calcTotalPrice(start, end));
+  }, [dateRange]);
 
   const fetchBookedDates = async () => {
     try {
@@ -63,8 +68,6 @@ const BookingForm = ({ apartmentId, apartmentPrice }) => {
 
   const handleDateChange = (item) => {
     setDateRange([item.selection]);
-    const price = calcTotalPrice(item.selection.startDate, item.selection.endDate);
-    setTotalPrice(price);
   };
 
   const handleSubmit = async (e) => {
@@ -82,9 +85,9 @@ const BookingForm = ({ apartmentId, apartmentPrice }) => {
       apartmentId,
       startDate: dateRange[0].startDate.toISOString(),
       endDate: dateRange[0].endDate.toISOString(),
-      totalPrice
+      totalPrice,
     };
-
+console.log("Booking data:", bookingData);
     try {
       const headers = getAuthHeaders();
 
