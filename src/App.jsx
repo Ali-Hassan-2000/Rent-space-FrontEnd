@@ -27,7 +27,7 @@ const App = () => {
         <Route path='/sign-up' element={<SignUpForm />} />
         <Route path='/sign-in' element={<SignInForm />} />
         <Route path='/apartments/new' element={<AddApartmentForm />} />
-        <Route path='/apartments/:apartmentId/edit' element={<UpdateApartmentForm />} />
+        <Route path='/apartments/edit/:apartmentId' element={<UpdateApartmentForm />} />
         <Route path='/apartments/:apartmentId' element={<ApartmentShow />} />
         <Route path='/apartments/:apartmentId/bookings' element={<ApartmentBookings />} />
         <Route path="/booking/:apartmentId" element={<BookingForm />} />

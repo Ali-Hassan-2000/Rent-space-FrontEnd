@@ -182,7 +182,7 @@ const AddApartmentForm = () => {
 
 
           <label htmlFor="ApartmentImg1">Apartment img 1:</label>
-          <input type="file" id="ApartmentImg1" name="ApartmentImg1" accept="image/*" onChange={handleChange} />
+          <input type="file" id="ApartmentImg1" name="ApartmentImg1" accept="image/*" onChange={handleChange} required/>
 
           <label htmlFor="ApartmentImg2">Apartment img 2:</label>
           <input type="file" id="ApartmentImg2" name="ApartmentImg2" accept="image/*" onChange={handleChange}/>

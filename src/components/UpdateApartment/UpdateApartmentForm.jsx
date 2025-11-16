@@ -7,7 +7,7 @@ import { UserContext } from '../../contexts/UserContext';
 const UpdateApartmentForm = () => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { apartmentId } = useParams();
 
   const [formData, setFormData] = useState({
     ApartmentName: '',
@@ -40,14 +40,14 @@ const UpdateApartmentForm = () => {
     useEffect(() => {
     const fetchApartment = async () => {
       try {
-        const ap = await show(id);
+        const ap = await show(apartmentId);
         setFormData({
           ApartmentName: ap.ApartmentName,
           ApartmentPrice: ap.ApartmentPrice,
           ApartmentDescription: ap.ApartmentDescription,
           offeringOptions: ap.ApartmentOffering,
           ApartmentCity: ap.ApartmentCity,
-          ApartmentImg: ap.ApartmentImg,        
+          ApartmentImg: ap.ApartmentImg.map(img => img.url),      
         });
       } catch (err) {
         setError("Failed to load apartment");
@@ -55,8 +55,9 @@ const UpdateApartmentForm = () => {
     };
 
     fetchApartment();
-  }, [id]);
+  }, [apartmentId]);
 
+  
   const handleChange = (e) => {
     const { name, value, checked, files } = e.target;
 
@@ -72,6 +73,16 @@ const UpdateApartmentForm = () => {
       
       return;
     }
+
+    //if (name === "offeringOptions") {
+    //  setFormData(prev => ({
+    //    ...prev,
+    //    offeringOptions: checked
+    //      ? [...prev.offeringOptions, value]
+    //      : prev.offeringOptions.filter((o) => o !== value)
+    //  }));
+    //  return;
+
     if (name === "offeringOptions") {
       setFormData(prev => {
         
@@ -113,12 +124,20 @@ const UpdateApartmentForm = () => {
       data.append("ApartmentCity", formData.ApartmentCity);
 
 
-      Array.from(formData.ApartmentImg).forEach((img) => {
-        data.append("ApartmentImg", JSON.stringify(img));
+      //Array.from(formData.ApartmentImg).forEach((img) => {
+      //  data.append("ApartmentImg", img);
+      //});
+
+      formData.ApartmentImg.forEach((item, i) => {
+        if (item instanceof File) {
+          data.append("ApartmentImg", item);
+        } else {
+          data.append(`ApartmentImg${i + 1}`, item);
+        }
       });
       
-      await update(data);
-      navigate('/');
+      await update(apartmentId, data);
+      navigate(`/apartments/${apartmentId}`);
     } catch (err) {
       setError(err.message);
     } finally {
