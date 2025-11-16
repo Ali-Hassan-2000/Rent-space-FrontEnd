@@ -14,6 +14,7 @@ import CityShow from './components/CityShow/CityShow';
 import UserBookings from './components/userBookings/userBookings';
 import ApartmentBookings from './components/apartmentBookings/apartmentBookings';
 import ApartmentList from './components/ApartmentList/ApartmentList';
+import UpdateApartmentForm from './components/UpdateApartment/UpdateApartmentForm';
 
 const App = () => {
   const { user } = useContext(UserContext);
@@ -26,9 +27,10 @@ const App = () => {
         <Route path='/sign-up' element={<SignUpForm />} />
         <Route path='/sign-in' element={<SignInForm />} />
         <Route path='/apartments/new' element={<AddApartmentForm />} />
+        <Route path='/apartments/:apartmentId/edit' element={<UpdateApartmentForm />} />
         <Route path='/apartments/:apartmentId' element={<ApartmentShow />} />
         <Route path='/apartments/:apartmentId/bookings' element={<ApartmentBookings />} />
-        <Route path="/booking/:apartmentId" element={<BookingForm />}/>
+        <BookingForm apartmentId={apartment._id} apartmentPrice={apartment.price}/>
         <Route path='/userBookings/:userId' element={<UserBookings />} />
         <Route path='/apartment-list' element={<ApartmentList />} />
         <Route path='/cities/:city' element={<CityShow />}/>
