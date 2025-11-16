@@ -91,13 +91,9 @@ const AddApartmentForm = () => {
 
       data.append("ApartmentCity", formData.ApartmentCity);
 
-
       Array.from(formData.ApartmentImg).forEach((img) => {
         data.append("ApartmentImg", img);
-        console.log(img)
       });
-      console.log(formData.ApartmentImg)
-      console.log(data)
       
       await create(data);
       navigate('/');
