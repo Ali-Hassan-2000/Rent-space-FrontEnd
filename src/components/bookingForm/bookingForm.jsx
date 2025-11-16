@@ -82,6 +82,7 @@ const BookingForm = ({ apartmentId, apartmentPrice }) => {
       apartmentId,
       startDate: dateRange[0].startDate.toISOString(),
       endDate: dateRange[0].endDate.toISOString(),
+      totalPrice
     };
 
     try {
