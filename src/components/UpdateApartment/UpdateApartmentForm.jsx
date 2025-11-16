@@ -114,13 +114,8 @@ const UpdateApartmentForm = () => {
 
       data.append("ApartmentCity", formData.ApartmentCity);
 
-
-      //Array.from(formData.ApartmentImg).forEach((img) => {
-      //  data.append("ApartmentImg", img);
-      //});
-
       formData.ApartmentImg.forEach((item, i) => {
-        if (item instanceof File) {
+        if (item && item.type && item.size) {
           data.append("ApartmentImg", item);
         } else {
           data.append(`ApartmentImg${i + 1}`, item);
@@ -187,6 +182,7 @@ const UpdateApartmentForm = () => {
                 type="checkbox"
                 value={offer}
                 name="offeringOptions"
+                checked={formData.offeringOptions.includes(offer)}
                 onChange={handleChange}
               />
               <span>{offer}</span>
