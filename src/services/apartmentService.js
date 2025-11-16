@@ -32,7 +32,7 @@ const create = async (formData) => {
     const res = await fetch(`${BASE_URL}`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}`},
-      body: JSON.stringify(formData),
+      body: formData,
     });
 
     const data = await res.json();
