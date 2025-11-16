@@ -41,26 +41,20 @@ const ApartmentShow = () => {
     if (error) return <div>Error: {error}</div>;
     if (!apt) return <div>No apartment data.</div>;
 
-    const handleFavorite = () => {
-        if (!user) {
-            navigate(`/sign-in?next=/apartments/${apartmentId}`);
-            return;
-        }
-    };
+
 
     const handleBookNow = () => {
         if (!user) {
             navigate(`/sign-in?next=/apartments/${apartmentId}`);
             return;
         }
-        navigate(`/booking/${apartmentId}`);
+        navigate(`/booking/${apartmentId}`, { state: { apartmentPrice: apt?.ApartmentPrice } });
     };
 
     return (
         <main>
             <section>
                 <h1>{apt.ApartmentName}</h1>
-                <button onClick={handleFavorite}>Favorite</button>
             </section>
 
             <section>

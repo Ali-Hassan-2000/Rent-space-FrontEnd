@@ -2,7 +2,7 @@ import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DateRange } from 'react-date-range';
 import { UserContext } from '../../contexts/UserContext';
-import { useParams } from "react-router-dom";
+import { useParams , useLocation } from "react-router-dom";
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import './bookingForm.css';
@@ -11,7 +11,10 @@ const BookingForm = () => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
     const { apartmentId } = useParams(); 
-  
+   const location = useLocation();
+
+  // Get apartmentPrice from navigate state
+  const apartmentPrice = location.state?.apartmentPrice || 0;
   const [dateRange, setDateRange] = useState([
     {
       startDate: new Date(),
@@ -22,7 +25,7 @@ const BookingForm = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [loadingBookedDates, setLoadingBookedDates] = useState(false);
+  
 
   const getAuthHeaders = () => {
     const token = localStorage.getItem('token');
@@ -34,32 +37,11 @@ const BookingForm = () => {
     };
   };
   
-  useEffect(() => {
-    if (!apartmentId) return;
-    fetchBookedDates(); 
-  }, [apartmentId]);
 useEffect(() => {
     const start = dateRange[0].startDate;
     const end = dateRange[0].endDate;
     setTotalPrice(calcTotalPrice(start, end));
   }, [dateRange]);
-
-  const fetchBookedDates = async () => {
-    try {
-      setLoadingBookedDates(true);
-        const res = await fetch(
-          `${BEurl}/apartments/apartment/${apartmentId}/bookedDates`
-        );
-
-      if (!res.ok) {
-        throw new Error('Failed to fetch booked dates');
-      }
-    } catch (err) {
-      console.error('Error fetching booked dates:', err);
-    } finally {
-      setLoadingBookedDates(false);
-    }
-  };
 
   // Calculate total price based on date range
   const calcTotalPrice = (start, end) => {
@@ -119,9 +101,7 @@ try {
     }
   };
 
-  if (loadingBookedDates) {
-    return <div className="booking-form-container">Loading available dates...</div>;
-  }
+  
 
   return (
     <div className="booking-form-container">
