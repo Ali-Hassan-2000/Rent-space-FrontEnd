@@ -1,12 +1,13 @@
-import { useState, useContext } from 'react';
-import { useNavigate } from 'react-router';
+import { useState, useContext, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router';
 
-import { create } from '../../services/apartmentService';
+import { update, show } from '../../services/apartmentService';
 import { UserContext } from '../../contexts/UserContext';
 
-const AddApartmentForm = () => {
+const UpdateApartmentForm = () => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const [formData, setFormData] = useState({
     ApartmentName: '',
@@ -35,6 +36,26 @@ const AddApartmentForm = () => {
     'Diplomatic Area', 'Amwaj Islands', 'Durrat Al Bahrain', 'Sanabis',
     'Tubli', 'Zallaq', 'Barbar'
   ];
+
+    useEffect(() => {
+    const fetchApartment = async () => {
+      try {
+        const ap = await show(id);
+        setFormData({
+          ApartmentName: ap.ApartmentName,
+          ApartmentPrice: ap.ApartmentPrice,
+          ApartmentDescription: ap.ApartmentDescription,
+          offeringOptions: ap.ApartmentOffering,
+          ApartmentCity: ap.ApartmentCity,
+          ApartmentImg: ap.ApartmentImg,        
+        });
+      } catch (err) {
+        setError("Failed to load apartment");
+      }
+    };
+
+    fetchApartment();
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value, checked, files } = e.target;
@@ -96,7 +117,7 @@ const AddApartmentForm = () => {
         data.append("ApartmentImg", JSON.stringify(img));
       });
       
-      await create(data);
+      await update(data);
       navigate('/');
     } catch (err) {
       setError(err.message);
@@ -111,7 +132,7 @@ const AddApartmentForm = () => {
 
   return (
     <div>
-      <h2>Add New Apartment</h2>
+      <h2>Edit Apartment</h2>
 
       {error && <p> {error} </p>}
       {success && <p> {success} </p>}
@@ -119,7 +140,7 @@ const AddApartmentForm = () => {
       <form onSubmit={handleSubmit} encType="multipart/form-data">
 
         <label htmlFor="ApartmentName">Apartment name:</label>
-      	<input 
+        <input 
           type="text" 
           id="ApartmentName" 
           name="ApartmentName"
@@ -129,7 +150,7 @@ const AddApartmentForm = () => {
         />
 
         <label htmlFor="ApartmentPrice">Item price:</label>
-      	<input 
+        <input 
           type="number" 
           id="ApartmentPrice" 
           name="ApartmentPrice"
@@ -140,7 +161,7 @@ const AddApartmentForm = () => {
         />
 
         <label htmlFor="ApartmentDescription">Item description:</label>
-      	<textarea 
+        <textarea 
           id="ApartmentDescription"
           name="ApartmentDescription"
           value={formData.ApartmentDescription}
@@ -183,7 +204,7 @@ const AddApartmentForm = () => {
 
 
           <label htmlFor="ApartmentImg1">Apartment img 1:</label>
-          <input type="file" id="ApartmentImg1" name="ApartmentImg1" accept="image/*" onChange={handleChange} />
+          <input type="file" id="ApartmentImg1" name="ApartmentImg1" accept="image/*" onChange={handleChange}/>
 
           <label htmlFor="ApartmentImg2">Apartment img 2:</label>
           <input type="file" id="ApartmentImg2" name="ApartmentImg2" accept="image/*" onChange={handleChange}/>
@@ -205,4 +226,4 @@ const AddApartmentForm = () => {
   );
 };
 
-export default AddApartmentForm;
+export default UpdateApartmentForm;
