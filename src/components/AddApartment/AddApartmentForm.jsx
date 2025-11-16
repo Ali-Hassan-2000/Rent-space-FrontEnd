@@ -93,7 +93,7 @@ const AddApartmentForm = () => {
 
 
       Array.from(formData.ApartmentImg).forEach((img) => {
-        data.append("ApartmentImg", JSON.stringify(img));
+        data.append("ApartmentImg", img);
       });
       
       await create(data);
