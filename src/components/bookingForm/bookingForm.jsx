@@ -2,14 +2,15 @@ import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DateRange } from 'react-date-range';
 import { UserContext } from '../../contexts/UserContext';
+import { useParams } from "react-router-dom";
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import './bookingForm.css';
 const BEurl = import.meta.env.VITE_BACK_END_SERVER_URL;
-const BookingForm = ({ apartmentId, apartmentPrice }) => {
+const BookingForm = () => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
-  
+    const { apartmentId } = useParams(); 
   
   const [dateRange, setDateRange] = useState([
     {

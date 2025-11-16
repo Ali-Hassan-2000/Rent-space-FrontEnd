@@ -28,10 +28,7 @@ const App = () => {
         <Route path='/apartments/new' element={<AddApartmentForm />} />
         <Route path='/apartments/:apartmentId' element={<ApartmentShow />} />
         <Route path='/apartments/:apartmentId/bookings' element={<ApartmentBookings />} />
-        <BookingForm 
-  apartmentId={apartment._id}
-  apartmentPrice={apartment.price}
-/>
+        <Route path="/booking/:apartmentId" element={<BookingForm />}/>
         <Route path='/userBookings/:userId' element={<UserBookings />} />
         <Route path='/apartment-list' element={<ApartmentList />} />
         <Route path='/cities/:city' element={<CityShow />}/>
