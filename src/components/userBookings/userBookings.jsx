@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
+import { useParams } from 'react-router-dom';
 const getAuthHeaders = () => {
     const token = localStorage.getItem('token');
     if (!token) throw new Error('No authentication token found');
@@ -29,7 +30,7 @@ const fetchUserBookings = async () => {
     setLoading(true)
     setErr('')
     const headers = getAuthHeaders();
-    const res = await fetch(`${BEurl}/bookings/userBookings/${user.id}`, { headers });
+    const res = await fetch(`${BEurl}/bookings/userBookings/${userId}`, { headers });
       const data = await res.json();
       if (!res.ok) {
         throw new Error(data.message || 'Failed to fetch bookings');

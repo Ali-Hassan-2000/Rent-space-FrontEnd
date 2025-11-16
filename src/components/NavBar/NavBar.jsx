@@ -41,7 +41,7 @@ const NavBar = () => {
             {user.role === 'Customer' && (
               <>
                 <li> <Link to="/favorites"> Favourites </Link> </li>
-                <li> <Link to="/bookings"> My Bookings </Link> </li>
+                <li> <Link to={`/userBookings/${user._id}`}> My Bookings </Link> </li>
               </>
             )}
 
