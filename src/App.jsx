@@ -30,10 +30,7 @@ const App = () => {
         <Route path='/apartments/:apartmentId/edit' element={<UpdateApartmentForm />} />
         <Route path='/apartments/:apartmentId' element={<ApartmentShow />} />
         <Route path='/apartments/:apartmentId/bookings' element={<ApartmentBookings />} />
-        <BookingForm 
-  apartmentId={apartment._id}
-  apartmentPrice={apartment.price}
-/>
+        <BookingForm apartmentId={apartment._id} apartmentPrice={apartment.price}/>
         <Route path='/userBookings/:userId' element={<UserBookings />} />
         <Route path='/apartment-list' element={<ApartmentList />} />
         <Route path='/cities/:city' element={<CityShow />}/>
