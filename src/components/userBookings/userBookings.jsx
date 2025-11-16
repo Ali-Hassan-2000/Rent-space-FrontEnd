@@ -1,11 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
-const userBookings = ({userId}) => {
-  const [bookings,setBookings] = useState([])
-const [loading,setLoading] = useState(false)
-const [err,setErr] = useState('')
-const BEurl = import.meta.env.VITE_BACK_END_SERVER_URL
-  const getAuthHeaders = () => {
+const getAuthHeaders = () => {
     const token = localStorage.getItem('token');
     if (!token) throw new Error('No authentication token found');
 
@@ -14,8 +9,19 @@ const BEurl = import.meta.env.VITE_BACK_END_SERVER_URL
       'Content-Type': 'application/json',
     };
   };
+const BEurl = import.meta.env.VITE_BACK_END_SERVER_URL
+const UserBookings = () => {
+  const { user } = useContext(UserContext);
+  const params = useParams();
+   const userIdFromRoute = params.userId;
+  const userId = user?._id ?? userIdFromRoute;
+  const [bookings,setBookings] = useState([])
+const [loading,setLoading] = useState(false)
+const [err,setErr] = useState('')
+
+  
 useEffect(() => {
-    if (!user) return;
+    if (!userId) return;
     fetchUserBookings() 
 },[userId])
 const fetchUserBookings = async () => {
@@ -23,9 +29,7 @@ const fetchUserBookings = async () => {
     setLoading(true)
     setErr('')
     const headers = getAuthHeaders();
-    const res = await fetch(`${BEurl}/userBookings/${userId}`,
-      {headers,
-      });
+    const res = await fetch(`${BEurl}/bookings/userBookings/${user.id}`, { headers });
       const data = await res.json();
       if (!res.ok) {
         throw new Error(data.message || 'Failed to fetch bookings');
@@ -50,7 +54,7 @@ const fetchUserBookings = async () => {
     const end = new Date(endDate);
     return Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
   };
-    if (!user || !userId) {
+    if (!user) {
     return (
       <main className="user-bookings-container">
         <p>Please sign in to view your bookings.</p>
@@ -109,7 +113,7 @@ const fetchUserBookings = async () => {
 
               <div className="detail-row">
                 <span className="label">Nights</span>
-                <span className="value">{calculateNights(booking.startDate, booking.endDate)}</span>
+                <span className="value">{calcNights(booking.startDate, booking.endDate)}</span>
               </div>
 
               <div className="detail-row">
@@ -129,4 +133,4 @@ const fetchUserBookings = async () => {
   
 
 }
-export default userBookings;
+export default UserBookings;

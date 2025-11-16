@@ -1,14 +1,15 @@
 import { useState, useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { DateRange } from 'react-date-range';
 import { UserContext } from '../../contexts/UserContext';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import './bookingForm.css';
-
+const BEurl = import.meta.env.VITE_BACK_END_SERVER_URL;
 const BookingForm = ({ apartmentId, apartmentPrice }) => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
+  
   
   const [dateRange, setDateRange] = useState([
     {
@@ -31,21 +32,23 @@ const BookingForm = ({ apartmentId, apartmentPrice }) => {
       'Content-Type': 'application/json',
     };
   };
-
- 
-const BEurl = import.meta.env.VITE_BACK_END_SERVER_URL;
-
-  // Fetch booked dates on component mount
+  
   useEffect(() => {
-    fetchBookedDates();
+    if (!apartmentId) return;
+    fetchBookedDates(); 
   }, [apartmentId]);
+useEffect(() => {
+    const start = dateRange[0].startDate;
+    const end = dateRange[0].endDate;
+    setTotalPrice(calcTotalPrice(start, end));
+  }, [dateRange]);
 
   const fetchBookedDates = async () => {
     try {
       setLoadingBookedDates(true);
-      const res = await fetch(
-        `${BEurl}/apartment/${apartmentId}/bookedDates`
-      );
+        const res = await fetch(
+          `${BEurl}/apartments/apartment/${apartmentId}/bookedDates`
+        );
 
       if (!res.ok) {
         throw new Error('Failed to fetch booked dates');
@@ -58,15 +61,13 @@ const BEurl = import.meta.env.VITE_BACK_END_SERVER_URL;
   };
 
   // Calculate total price based on date range
-  const calculateTotalPrice = (start, end) => {
+  const calcTotalPrice = (start, end) => {
     const days = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
-    return Math.max(1, days) * apartmentPrice;
+    return Math.max(1, days) * (apartmentPrice || 0);
   };
 
   const handleDateChange = (item) => {
     setDateRange([item.selection]);
-    const price = calculateTotalPrice(item.selection.startDate, item.selection.endDate);
-    setTotalPrice(price);
   };
 
   const handleSubmit = async (e) => {
@@ -84,24 +85,32 @@ const BEurl = import.meta.env.VITE_BACK_END_SERVER_URL;
       apartmentId,
       startDate: dateRange[0].startDate.toISOString(),
       endDate: dateRange[0].endDate.toISOString(),
+      totalPrice,
     };
-
+console.log("Booking data:", bookingData);
     try {
       const headers = getAuthHeaders();
 
-      const res = await fetch(`${backendUrl}/bookings`, {
+      const res = await fetch(`${BEurl}/apartments/booking`, {
         method: 'POST',
         headers,
         body: JSON.stringify(bookingData),
       });
 
-      const data = await res.json();
+      let data;
+
+try {
+  data = await res.json();
+} catch (e) {
+  const text = await res.text();
+  throw new Error("Server returned non-JSON response: " + text.slice(0, 100));
+}
 
       if (!res.ok) {
         throw new Error(data.message || 'Booking failed');
       }
 
-      navigate(`/user-bookings/${user.id}`);
+     navigate(`/userBookings/${user._id}`);
     } catch (err) {
       setError(err.message || 'Booking failed. Please try again.');
     } finally {

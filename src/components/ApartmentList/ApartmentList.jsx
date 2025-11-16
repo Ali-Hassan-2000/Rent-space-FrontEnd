@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router';
 import { index as getApartments } from '../../services/apartmentService';
 
