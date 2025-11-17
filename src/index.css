@@ -133,6 +133,11 @@ nav li {
   gap: 0.3rem;
 }
 
+nav img {
+  max-width: 30px;
+  max-height: 30px;
+}
+
 nav a {
   text-decoration: none;
   color: var(--text-soft);

@@ -25,7 +25,7 @@ const UserBookings = () => {
 
     const res = await fetch(`${BEurl}/userBookings/${user._id}`, {
       method: 'GET',
-      headers
+      headers,
     });
 
     const data = await res.json();
