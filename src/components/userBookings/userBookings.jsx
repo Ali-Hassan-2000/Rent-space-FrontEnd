@@ -29,7 +29,7 @@ const fetchUserBookings = async () => {
 
     if (!res.ok) throw new Error(data.message || 'Failed to fetch bookings');
 
-    setBookings(data); // backend already sends correct structure
+    setBookings(data); 
 
   } catch (err) {
     console.error(err);
@@ -37,8 +37,8 @@ const fetchUserBookings = async () => {
   } finally {
     setLoading(false);
   }
+};
 
-  };
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
