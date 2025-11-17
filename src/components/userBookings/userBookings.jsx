@@ -1,48 +1,54 @@
 import { useEffect, useState, useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
-import { useParams } from 'react-router-dom';
-const getAuthHeaders = () => {
-    const token = localStorage.getItem('token');
-    if (!token) throw new Error('No authentication token found');
-
-    return {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    };
-  };
-const BEurl = import.meta.env.VITE_BACK_END_SERVER_URL
+const BEurl = import.meta.env.VITE_BACK_END_SERVER_URL;
 const UserBookings = () => {
   const { user } = useContext(UserContext);
-  const params = useParams();
-   const userIdFromRoute = params.userId;
-  const userId = user?._id ?? userIdFromRoute;
-  const [bookings,setBookings] = useState([])
-const [loading,setLoading] = useState(false)
-const [err,setErr] = useState('')
+  const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState('');
 
-  
-useEffect(() => {
-    if (!userId) return;
-    fetchUserBookings() 
-},[userId])
-const fetchUserBookings = async () => {
-  try{
-    setLoading(true)
-    setErr('')
-    const headers = getAuthHeaders();
-    const res = await fetch(`${BEurl}/bookings/userBookings/${userId}`, { headers });
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.message || 'Failed to fetch bookings');
-      }
-      setBookings(data)
-  }
-  catch (err) {
-    console.log(err);
-  } finally {
-    setLoading(false)
-  }
-}
+  useEffect(() => {
+    if (!user) return;
+    fetchUserBookings();
+  }, [user]);
+
+  const fetchUserBookings = async () => {
+    try {
+      setLoading(true);
+      setErr('');
+
+      
+      const res = await fetch(`${BEurl}/apartments`);
+      if (!res.ok) throw new Error('Failed to fetch apartments');
+      const apartments = await res.json();
+      const customerBookings = [];
+      apartments.forEach((apt) => {
+        if (apt.BookingCalendar && Array.isArray(apt.BookingCalendar)) {
+          apt.BookingCalendar.forEach((booking) => {
+            if (String(booking.userId) === String(user.id)) {
+              customerBookings.push({
+                bookingId: booking._id,
+                apartmentId: apt._id,
+                apartmentName: apt.ApartmentName,
+                apartmentImg: apt.ApartmentImg?.[0]?.url || null,
+                apartmentPrice: apt.ApartmentPrice,
+                startDate: booking.startDate,
+                endDate: booking.endDate,
+                totalPrice: booking.totalPrice,
+              });
+            }
+          });
+        }
+      });
+
+      setBookings(customerBookings);
+    } catch (err) {
+      console.error(err);
+      setErr(err.message || 'Failed to load bookings');
+    } finally {
+      setLoading(false);
+    }
+  };
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
