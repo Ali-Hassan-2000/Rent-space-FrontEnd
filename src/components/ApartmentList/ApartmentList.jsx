@@ -52,11 +52,11 @@ return (
 
                         <div>
               
-                            <Link to={`/apartments/edit/${ap._id}`}>
+                            <Link to={`/apartments/edit/${a._id}`}>
                                 <button>Edit</button>
                             </Link>
 
-                            <button onClick={() => handleDelete(ap._id)}>
+                            <button onClick={() => handleDelete(a._id)}>
                                 Delete
                             </button>
 
