@@ -21,7 +21,7 @@ const fetchUserBookings = async () => {
       "Content-Type": "application/json",
     };
 
-    const res = await fetch(`${BEurl}/userBookings/${user._id}`, {
+    const res = await fetch(`${BEurl}/bookings/userBookings/${user._id}`, {
       headers
     });
 
@@ -37,8 +37,7 @@ const fetchUserBookings = async () => {
   } finally {
     setLoading(false);
   }
-};
-
+}
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
