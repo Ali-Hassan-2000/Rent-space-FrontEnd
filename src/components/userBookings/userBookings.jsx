@@ -15,36 +15,52 @@ const UserBookings = () => {
   }, [user]);
 
   const fetchUserBookings = async () => {
-  try {
-    setLoading(true);
-    setErr('');
-
-    const headers = {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json",
-    };
-console.log('Fetching from:', `${BEurl}/bookings/userBookings/${user._id}`);
-    const res = await fetch(`${BEurl}/bookings/userBookings/${user._id}`, { headers });
-const text = await res.text();
-
-let data;
-try {
-  data = JSON.parse(text);
-} catch {
-  console.error('Expected JSON but got HTML:', text);
-  setErr('Failed to fetch bookings');
-  return;
-}
-
-    if (!res.ok) throw new Error(data.message || 'Failed to fetch bookings');
-setBookings(data);
-  } catch (err) {
-    console.error(err);
-    setErr(err.message || 'Failed to load bookings');
-  } finally {
-    setLoading(false);
-  }
-};
+    try {
+      setLoading(true);
+      setErr("");
+      const headers = {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      };
+      // Fetch all apartments
+      const res = await fetch(`${BEurl}/apartments`, { headers });
+      const text = await res.text();
+      let apartments;
+      try {
+        apartments = JSON.parse(text);
+      } catch {
+        console.error("Expected JSON but got HTML:", text);
+        setErr("Failed to fetch apartments");
+        return;
+      }
+      if (!res.ok) throw new Error(apartments.message || "Failed to fetch apartments");
+      // Extract bookings for current user
+      const userId = user._id || user.id;
+      const userBookings = [];
+      apartments.forEach((apt) => {
+        if (Array.isArray(apt.BookingCalendar)) {
+          apt.BookingCalendar.forEach((booking) => {
+            if (
+              booking.userId === userId ||
+              booking.userId === user._id ||
+              booking.userId === user.id
+            ) {
+              userBookings.push({
+                ...booking,
+                apartmentName: apt.name || apt.title || "Apartment",
+              });
+            }
+          });
+        }
+      });
+      setBookings(userBookings);
+    } catch (err) {
+      console.error(err);
+      setErr(err.message || "Failed to load bookings");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
