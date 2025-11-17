@@ -40,13 +40,14 @@ const NavBar = () => {
 
             {user.role === 'Customer' && (
               <>
-                <li> <Link to="/favorites"> Favourites </Link> </li>
+                <li> <Link to="/"> Home </Link> </li>
                 <li> <Link to={`/userBookings/${user._id}`}> My Bookings </Link> </li>
               </>
             )}
 
             {user.role === 'Owner' && (
               <>
+              <li> <Link to="/"> Home </Link></li>
                 <li> <Link to="/apartments/new"> Add Apartment </Link> </li>
                 <li> <Link to="/apartments"> Apartment List </Link> </li>
               </>
