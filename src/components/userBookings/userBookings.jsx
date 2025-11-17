@@ -20,11 +20,11 @@ const UserBookings = () => {
     setErr('');
 
     const headers = {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`
     };
 
-    const res = await fetch(`${BEurl}/bookings/userBookings/${user._id}`, {
+    const res = await fetch(`${BEurl}/userBookings/${user._id}`, {
+      method: 'GET',
       headers
     });
 
