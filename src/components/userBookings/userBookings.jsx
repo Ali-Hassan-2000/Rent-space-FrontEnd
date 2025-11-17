@@ -24,7 +24,7 @@ const UserBookings = () => {
       "Content-Type": "application/json",
     };
 
-    const res = await fetch(`${BEurl}/bookings/userBookings/${user._id}`, {
+    const res = await fetch(`${BEurl}/userBookings/${user._id}`, {
       headers
     });
 
