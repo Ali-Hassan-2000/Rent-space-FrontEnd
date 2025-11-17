@@ -11,7 +11,6 @@ const ApartmentShow = () => {
     const [apt, setApt] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [rating, setRating] = useState(3);
    
 
     useEffect(() => {
@@ -54,24 +53,6 @@ const ApartmentShow = () => {
     };
 
 
-    const handleRatingChange = async (e) => {
-        const newRating = Number(e.target.value);
-
-        if (!user) {
-            navigate(`/sign-in?next=/apartments/${apartmentId}`);
-            return;
-        }
-        if (![3, 4, 5].includes(newRating)) return;
-
-        try {
-            const updated = await apartmentService.rate(apartmentId, newRating);
-            const data = updated?.data ?? updated;
-            setApt(data);
-            setRating(data.ApartmentRating ?? newRating);
-        } catch (_) {
-
-        }
-    };
 
     return (
         <main>
@@ -89,14 +70,6 @@ const ApartmentShow = () => {
                 <p>{apt.ApartmentOffering}</p>
             </section>
 
-          <section>
-                <h2>Rating</h2>
-                <select value={rating} onChange={handleRatingChange}>
-                <Option value={3}>3</Option>
-                <Option value={4}>4</Option>
-                <Option value={5}>5</Option>
-                </select>
-          </section>
 
             <aside>
                 <div>
