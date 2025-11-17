@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
+
 const BEurl = import.meta.env.VITE_BACK_END_SERVER_URL;
 const UserBookings = () => {
   const { user } = useContext(UserContext);
@@ -88,45 +89,42 @@ const fetchUserBookings = async () => {
   }
 
   return (
-    <main className="user-bookings-container">
-      <h1>My Bookings</h1>
-      <div className="bookings-grid">
-        {bookings.map((booking, idx) => (
-          <div key={idx} className="booking-card">
-            <div className="booking-header">
-              <h2>{booking.apartmentName || 'Apartment'}</h2>
-            </div>
+    <div className="booking-table-container">
+      <h2>Your Bookings</h2>
 
-            <div className="booking-details">
-              <div className="detail-row">
-                <span className="label">Check-in</span>
-                <span className="value">{formatDate(booking.startDate)}</span>
-              </div>
+      <table className="booking-table">
+        <thead>
+          <tr>
+            <th>Apartment</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Total Price</th>
+            <th>Status</th>
+          </tr>
+        </thead>
 
-              <div className="detail-row">
-                <span className="label">Check-out</span>
-                <span className="value">{formatDate(booking.endDate)}</span>
-              </div>
-
-              <div className="detail-row">
-                <span className="label">Nights</span>
-                <span className="value">{calcNights(booking.startDate, booking.endDate)}</span>
-              </div>
-
-              <div className="detail-row">
-                <span className="label">Total Price</span>
-                <span className="value price">${booking.totalPrice}</span>
-              </div>
-            </div>
-
-            <div className="booking-footer">
-              <span className="booking-status">Confirmed</span>
-            </div>
-          </div>
-        ))}
-      </div>
-    </main>
-  )
+        <tbody>
+          {bookings.length === 0 ? (
+            <tr>
+              <td colSpan="5" style={{ textAlign: "center" }}>
+                No bookings found
+              </td>
+            </tr>
+          ) : (
+            bookings.map((b) => (
+              <tr key={b._id}>
+                <td>{b.apartmentName}</td>
+                <td>{new Date(b.startDate).toLocaleDateString()}</td>
+                <td>{new Date(b.endDate).toLocaleDateString()}</td>
+                <td>{b.totalPrice} BD</td>
+                <td>{b.status || "Confirmed"}</td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
   
 
 }
