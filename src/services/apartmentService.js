@@ -118,6 +118,29 @@ const getByCity = async (city) => {
   }
 };
 
+const rate = async (apartmentId, rating) => {
+  try {
+    const token = localStorage.getItem('token');
+
+    const res = await fetch(`${BASE_URL}/apartment/${apartmentId}/rating`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type' : 'application/json',
+        Authorization : `Bearer ${token}`,
+      },
+      body: JSON.stringify({rating}),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.err || `Failed to update rating`);
+    return data;
+  } catch (err) {
+    console.error('Error updating apartment rating:', err);
+    throw err;
+  }
+};
+
 export { 
     index, 
     create, 
@@ -126,4 +149,5 @@ export {
 
     show,
     getByCity, 
+    rate,
 };
