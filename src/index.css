@@ -156,8 +156,51 @@ p {
    Navbar
    =========================== */
 
+nav ul {
+  max-width: 1120px;
+  margin: 0 auto;
+  height: 100%;
+  padding: 0 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  list-style: none;
+  gap: 1rem;
+}
 
+nav li {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
 
+nav img {
+  max-width: 70px;
+  max-height: 70px;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--text-soft);
+  font-size: 0.9rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: background-color var(--transition-fast), color var(--transition-fast),
+    border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+nav a:hover {
+  color: #f9fafb;
+  background: rgba(15, 23, 42, 0.9);
+  border-color: rgba(55, 65, 81, 0.9);
+  transform: translateY(-1px);
+}
+
+nav li:first-child {
+  font-size: 0.9rem;
+  color: var(--text-soft);
+}
 /* ===========================
    Buttons
    =========================== */
