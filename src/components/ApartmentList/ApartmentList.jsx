@@ -1,6 +1,7 @@
 import { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router';
 import { index as getApartments } from '../../services/apartmentService';
+import { destroy } from "../../services/apartmentService";
 
 const ApartmentList = () => {
   const [items, setItems] = useState([]);
@@ -21,6 +22,17 @@ useEffect(() => {
         }
     })();
 }, []);
+
+  const handleDelete = async (apartmentId) => {
+    if (!window.confirm("Are you sure you want to delete this apartment?")) return;
+
+    try {
+      await destroy(apartmentId);
+      window.location.reload(); // refresh so list updates
+    } catch (err) {
+      alert(err.message);
+    }
+  };
     
 const open = (id) => navigate(`/apartments/${id}`);
 
@@ -37,6 +49,18 @@ return (
                         <button onClick={() => open(a._id)}>
                             {a.ApartmentName} - {a.ApartmentCity} - ${a.ApartmentPrice} - {a.ApartmentRating || 'N/A'}
                         </button>
+
+                        <div>
+              
+                            <Link to={`/apartments/edit/${ap._id}`}>
+                                <button>Edit</button>
+                            </Link>
+
+                            <button onClick={() => handleDelete(ap._id)}>
+                                Delete
+                            </button>
+
+                        </div>
                     </li>
                 ))}
             </ul>
@@ -44,5 +68,3 @@ return (
 );
 };
 export default ApartmentList;
-
-
