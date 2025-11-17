@@ -61,6 +61,25 @@ const ApartmentShow = () => {
             </section>
 
             <section>
+                <h2>Images</h2>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+                    {Array.isArray(apt.ApartmentImg) && apt.ApartmentImg.length > 0 ? (
+                        apt.ApartmentImg.map((img, idx) => (
+                            <div key={idx}>
+                                <img 
+                                    src={img?.url || img} 
+                                    alt={`${apt.ApartmentName} - Image ${idx + 1}`}
+                                    style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '8px' }}
+                                />
+                            </div>
+                        ))
+                    ) : (
+                        <p>No images available</p>
+                    )}
+                </div>
+            </section>
+
+            <section>
                 <h2>Apartment location</h2>
                 <p>{apt.ApartmentCity}</p>
             </section>
