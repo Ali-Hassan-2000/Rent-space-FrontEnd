@@ -23,17 +23,21 @@ const UserBookings = () => {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
       "Content-Type": "application/json",
     };
+console.log('Fetching from:', `${BEurl}/bookings/userBookings/${user._id}`);
+    const res = await fetch(`${BEurl}/bookings/userBookings/${user._id}`, { headers });
+const text = await res.text();
 
-    const res = await fetch(`${BEurl}/bookings/userBookings/${user._id}`, {
-      headers
-    });
-
-    const data = await res.json();
+let data;
+try {
+  data = JSON.parse(text);
+} catch {
+  console.error('Expected JSON but got HTML:', text);
+  setErr('Failed to fetch bookings');
+  return;
+}
 
     if (!res.ok) throw new Error(data.message || 'Failed to fetch bookings');
-
-    setBookings(data);
-
+setBookings(data);
   } catch (err) {
     console.error(err);
     setErr(err.message || 'Failed to load bookings');
