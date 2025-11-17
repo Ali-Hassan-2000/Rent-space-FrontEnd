@@ -23,8 +23,8 @@ const UserBookings = () => {
       Authorization: `Bearer ${localStorage.getItem("token")}`
     };
 
-    const res = await fetch(`${BEurl}/userBookings/${user._id}`, {
-      method: 'GET',
+    const res = await fetch(`${BEurl}/apartments/userBookings/${user._id}`, {
+      method: 'GET',userBookings/
       headers
     });
 
