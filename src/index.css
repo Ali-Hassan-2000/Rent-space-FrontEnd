@@ -156,8 +156,6 @@ p {
    Navbar
    =========================== */
 
-
-<<<<<<< HEAD
 nav ul {
   max-width: 1120px;
   margin: 0 auto;
@@ -177,8 +175,8 @@ nav li {
 }
 
 nav img {
-  max-width: 30px;
-  max-height: 30px;
+  max-width: 70px;
+  max-height: 70px;
 }
 
 nav a {
@@ -203,9 +201,6 @@ nav li:first-child {
   font-size: 0.9rem;
   color: var(--text-soft);
 }
-=======
->>>>>>> c4bdba26385ab53400809ff4cdbb715243ad5321
-
 /* ===========================
    Buttons
    =========================== */
