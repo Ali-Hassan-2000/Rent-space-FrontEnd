@@ -11,48 +11,33 @@ const UserBookings = () => {
     if (!user) return;
     fetchUserBookings();
   }, [user]);
+const fetchUserBookings = async () => {
+  try {
+    setLoading(true);
+    setErr('');
 
-  const fetchUserBookings = async () => {
-    try {
-      setLoading(true);
-      setErr('');
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    };
 
-      // Fetch all apartments
-      const res = await fetch(`${BEurl}/apartments`);
-      if (!res.ok) throw new Error('Failed to fetch apartments');
-      const raw = await res.json();
-      const apartments = Array.isArray(raw) ? raw : raw?.data || raw?.apartments || [];
-      const customerBookings = [];
+    const res = await fetch(`${BEurl}/bookings/userBookings/${user._id}`, {
+      headers
+    });
 
-      // Support multiple token payload id fields
-      const uid = user?.id || user?._id || user?.userId || user?.sub;
+    const data = await res.json();
 
-      apartments.forEach((apt) => {
-        if (apt.BookingCalendar && Array.isArray(apt.BookingCalendar)) {
-          apt.BookingCalendar.forEach((booking) => {
-            if (String(booking.userId) === String(uid)) {
-              customerBookings.push({
-                bookingId: booking._id,
-                apartmentId: apt._id,
-                apartmentName: apt.ApartmentName,
-                apartmentImg: apt.ApartmentImg?.[0]?.url || null,
-                apartmentPrice: apt.ApartmentPrice,
-                startDate: booking.startDate,
-                endDate: booking.endDate,
-                totalPrice: booking.totalPrice,
-              });
-            }
-          });
-        }
-      });
+    if (!res.ok) throw new Error(data.message || 'Failed to fetch bookings');
 
-      setBookings(customerBookings);
-    } catch (err) {
-      console.error(err);
-      setErr(err.message || 'Failed to load bookings');
-    } finally {
-      setLoading(false);
-    }
+    setBookings(data); // backend already sends correct structure
+
+  } catch (err) {
+    console.error(err);
+    setErr(err.message || 'Failed to load bookings');
+  } finally {
+    setLoading(false);
+  }
+
   };
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
