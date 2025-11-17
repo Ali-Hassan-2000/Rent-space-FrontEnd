@@ -17,15 +17,20 @@ const UserBookings = () => {
       setLoading(true);
       setErr('');
 
-      
+      // Fetch all apartments
       const res = await fetch(`${BEurl}/apartments`);
       if (!res.ok) throw new Error('Failed to fetch apartments');
-      const apartments = await res.json();
+      const raw = await res.json();
+      const apartments = Array.isArray(raw) ? raw : raw?.data || raw?.apartments || [];
       const customerBookings = [];
+
+      // Support multiple token payload id fields
+      const uid = user?.id || user?._id || user?.userId || user?.sub;
+
       apartments.forEach((apt) => {
         if (apt.BookingCalendar && Array.isArray(apt.BookingCalendar)) {
           apt.BookingCalendar.forEach((booking) => {
-            if (String(booking.userId) === String(user.id)) {
+            if (String(booking.userId) === String(uid)) {
               customerBookings.push({
                 bookingId: booking._id,
                 apartmentId: apt._id,
