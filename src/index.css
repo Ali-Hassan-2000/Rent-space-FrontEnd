@@ -61,6 +61,8 @@ main {
   max-width: 1120px;
   margin: 0 auto;
   padding: 1.5rem 1.25rem 3rem;
+  /* added so content (sign in form) sits below fixed navbar */
+  padding-top: calc(1.5rem + var(--nav-height));
 }
 
 /* ===========================
@@ -101,9 +103,11 @@ p {
    =========================== */
 
 nav {
-  position: sticky;
+  position: fixed; /* was sticky → now fully fixed to top */
   top: 0;
-  z-index: 20;
+  left: 0;
+  right: 0;
+  z-index: 50;
   height: var(--nav-height);
   backdrop-filter: blur(16px);
   background: linear-gradient(
@@ -373,10 +377,6 @@ ul {
   margin-bottom: 0.4rem;
 }
 
-/* Use on your <main> in ApartmentShow:
-   <main className="apartment-show"> ...
-*/
-
 /* ===========================
    Forms (Sign in / up / Booking)
    =========================== */
@@ -526,4 +526,3 @@ footer a:hover {
     grid-template-columns: 1fr;
   }
 }
- 
