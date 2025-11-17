@@ -61,8 +61,6 @@ main {
   max-width: 1120px;
   margin: 0 auto;
   padding: 1.5rem 1.25rem 3rem;
-  /* added so content (sign in form) sits below fixed navbar */
-  padding-top: calc(1.5rem + var(--nav-height));
 }
 
 /* ===========================
@@ -103,10 +101,8 @@ p {
    =========================== */
 
 nav {
-  position: fixed; /* was sticky → now fully fixed to top */
+  position: sticky;  /* navbar stays at the top when scrolling */
   top: 0;
-  left: 0;
-  right: 0;
   z-index: 50;
   height: var(--nav-height);
   backdrop-filter: blur(16px);
@@ -197,7 +193,7 @@ button:disabled {
   box-shadow: none;
 }
 
-/* Secondary / ghost-style buttons (if you add className="btn-secondary") */
+/* Secondary / ghost-style buttons */
 
 .btn-secondary {
   background: transparent;
@@ -236,7 +232,7 @@ section + section {
   margin-top: 0.75rem;
 }
 
-/* Generic card wrapper for apartments (use className="apartment-card") */
+/* Generic card wrapper for apartments */
 
 .apartment-card {
   border-radius: var(--radius-lg);
@@ -319,7 +315,7 @@ ul {
   background: radial-gradient(circle at top left, rgba(34, 197, 94, 0.22), transparent 60%);
 }
 
-/* For generic <ul> apartment list (ApartmentList, CityShow) */
+/* For generic <ul> apartment list */
 
 .apartment-list {
   margin-top: 0.9rem;
