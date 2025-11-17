@@ -1,7 +1,6 @@
 import { useEffect, useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router';
 import { index as getApartments } from '../../services/apartmentService';
-import { UserContext } from '../../contexts/UserContext';
 import { destroy } from "../../services/apartmentService";
 
 const ApartmentList = () => {
@@ -9,21 +8,20 @@ const ApartmentList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const navigate = useNavigate();    
-const { user } = useContext(UserContext);
+
 
 useEffect(() => {
     (async () => {
         try {
             const data = await getApartments();
-            const ownerApts = data.filter(a => a.ownerId === user._id);
-            setItems(ownerApts);
+            setItems(Array.isArray(data) ? data : []);
         } catch (_) {
             setError('Failed to load apartments.');
         } finally {
             setLoading(false);
         }
     })();
-}, [user]);
+}, []);
 
   const handleDelete = async (apartmentId) => {
     if (!window.confirm("Are you sure you want to delete this apartment?")) return;
