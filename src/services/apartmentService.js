@@ -128,15 +128,15 @@ const rate = async (apartmentId, rating) => {
         'Content-Type' : 'application/json',
         Authorization : `Bearer ${token}`,
       },
-      body: JSON.stringify({rating}),
+      body: JSON.stringify({ApartmentRating : rating}),
     });
 
     const data = await res.json();
 
-    if (!res.ok) throw new Error(data.err || `Failed to update rating`);
+    if (!res.ok) throw new Error(data.err || `Failed to rate rating`);
     return data;
   } catch (err) {
-    console.error('Error updating apartment rating:', err);
+    console.error('Error rating apartment :', err);
     throw err;
   }
 };
