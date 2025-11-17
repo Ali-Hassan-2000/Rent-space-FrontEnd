@@ -15,28 +15,32 @@ const UserBookings = () => {
   }, [user]);
 
   const fetchUserBookings = async () => {
-    try {
-      setLoading(true);
-      setErr('');
+  try {
+    setLoading(true);
+    setErr('');
 
-      const headers = {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      };
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    };
 
-      const res = await fetch(`${BEurl}/bookings/userBookings/${user._id}`, { headers });
-      const data = await res.json();
+    const res = await fetch(`${BEurl}/bookings/userBookings/${user._id}`, {
+      headers
+    });
 
-      if (!res.ok) throw new Error(data.message || 'Failed to fetch bookings');
+    const data = await res.json();
 
-      setBookings(data); // backend already sends correct structure
-    } catch (err) {
-      console.error(err);
-      setErr(err.message || 'Failed to load bookings');
-    } finally {
-      setLoading(false);
-    }
-  };
+    if (!res.ok) throw new Error(data.message || 'Failed to fetch bookings');
+
+    setBookings(data);
+
+  } catch (err) {
+    console.error(err);
+    setErr(err.message || 'Failed to load bookings');
+  } finally {
+    setLoading(false);
+  }
+};
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
