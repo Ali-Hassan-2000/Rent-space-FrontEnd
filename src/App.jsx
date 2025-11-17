@@ -15,6 +15,7 @@ import UserBookings from './components/userBookings/userBookings';
 import ApartmentBookings from './components/apartmentBookings/apartmentBookings';
 import ApartmentList from './components/ApartmentList/ApartmentList';
 import UpdateApartmentForm from './components/UpdateApartment/UpdateApartmentForm';
+import './index.css';
 
 const App = () => {
   const { user } = useContext(UserContext);
