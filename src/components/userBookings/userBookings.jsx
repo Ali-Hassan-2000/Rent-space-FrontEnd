@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 
 const BEurl = import.meta.env.VITE_BACK_END_SERVER_URL;
+
 const UserBookings = () => {
   const { user } = useContext(UserContext);
   const [bookings, setBookings] = useState([]);
@@ -12,33 +13,31 @@ const UserBookings = () => {
     if (!user) return;
     fetchUserBookings();
   }, [user]);
-const fetchUserBookings = async () => {
-  try {
-    setLoading(true);
-    setErr('');
 
-    const headers = {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json",
-    };
+  const fetchUserBookings = async () => {
+    try {
+      setLoading(true);
+      setErr('');
 
-    const res = await fetch(`${BEurl}/bookings/userBookings/${user._id}`, {
-      headers
-    });
+      const headers = {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      };
 
-    const data = await res.json();
+      const res = await fetch(`${BEurl}/bookings/userBookings/${user._id}`, { headers });
+      const data = await res.json();
 
-    if (!res.ok) throw new Error(data.message || 'Failed to fetch bookings');
+      if (!res.ok) throw new Error(data.message || 'Failed to fetch bookings');
 
-    setBookings(data); 
+      setBookings(data); // backend already sends correct structure
+    } catch (err) {
+      console.error(err);
+      setErr(err.message || 'Failed to load bookings');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  } catch (err) {
-    console.error(err);
-    setErr(err.message || 'Failed to load bookings');
-  } finally {
-    setLoading(false);
-  }
-}
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -46,12 +45,14 @@ const fetchUserBookings = async () => {
       day: 'numeric',
     });
   };
+
   const calcNights = (startDate, endDate) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
     return Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
   };
-    if (!user) {
+
+  if (!user) {
     return (
       <main className="user-bookings-container">
         <p>Please sign in to view your bookings.</p>
@@ -126,8 +127,7 @@ const fetchUserBookings = async () => {
         ))}
       </div>
     </main>
-  )
-  
+  );
+};
 
-}
 export default UserBookings;
