@@ -1,11 +1,18 @@
 const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/users`;
-const  headers = { Authorization: `Bearer ${localStorage.getItem('token')}` }
 
 export const index = async () => {
    try {
+
+    const token = localStorage.getItem('token');
+
     const res = await fetch(`${BASE_URL}/`, {
       method: 'GET',
-      headers
+      // when the usuer sign in the const headers is null so there will be 401 error in [get users] side
+      // headers changed here to fix the issue
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     const data = await res.json();
@@ -14,7 +21,6 @@ export const index = async () => {
       throw new Error(data.err);
     }
 
-    console.log(data)
     return data
   } catch (err) {
     console.log(err);
