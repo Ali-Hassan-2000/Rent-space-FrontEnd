@@ -1,6 +1,6 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router';
-import { index as getApartments } from '../../services/apartmentService';
+import { index as getUserApartments } from '../../services/apartmentService';
 import { destroy } from "../../services/apartmentService";
 
 const ApartmentList = () => {
@@ -9,11 +9,16 @@ const ApartmentList = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();    
 
-
+ const user = JSON.parse(localStorage.getItem("user"))
 useEffect(() => {
+    if (!user) {
+      setError("You must be logged in");
+      setLoading(false);
+      return;
+    }
     (async () => {
         try {
-            const data = await getApartments();
+            const data = await getUserApartments(user._id);
             setItems(Array.isArray(data) ? data : []);
         } catch (_) {
             setError('Failed to load apartments.');
@@ -28,7 +33,7 @@ useEffect(() => {
 
     try {
       await destroy(apartmentId);
-      window.location.reload(); // refresh so list updates
+      setItems((prev)=> prev.filter((item) => item._id !== apartmentId))
     } catch (err) {
       alert(err.message);
     }
@@ -42,12 +47,12 @@ if (items.length === 0) return <main>No apartments available</main>;
 
 return (
         <main>
-            <h1>All Apartments</h1>
+            <h1>My Apartments</h1>
             <ul>
                 {items.map((a) => (
                     <li key={a._id}>
                         <button onClick={() => open(a._id)}>
-                            {a.ApartmentName} - {a.ApartmentCity} - ${a.ApartmentPrice} - {a.ApartmentRating || 'N/A'}
+                            {a.ApartmentName} - {a.ApartmentCity} - ${a.ApartmentPrice}
                         </button>
 
                         <div>
