@@ -120,7 +120,7 @@ const getByCity = async (city) => {
 
 const getUserApartment = async (userId) => {
   const token = localStorage.getItem('token')
-  const res = await fetch(`/api/apartments/user/${userId}`, {
+  const res = await fetch(`${BASE_URL}/user/${userId}`, {
     headers: {
       Authorization: `Bearer ${token}`
     }
