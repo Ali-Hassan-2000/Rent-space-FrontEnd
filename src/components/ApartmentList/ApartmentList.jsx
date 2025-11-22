@@ -28,7 +28,7 @@ useEffect(() => {
 
     try {
       await destroy(apartmentId);
-      window.location.reload(); // refresh so list updates
+      setItems((prev)=> prev.filter((item) => item._id !== apartmentId))
     } catch (err) {
       alert(err.message);
     }
