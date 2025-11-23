@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router';
-import { getUserApartments } from '../../services/apartmentService';
+import { index as getUserApartments } from '../../services/apartmentService';
 import { destroy } from "../../services/apartmentService";
 
 const ApartmentList = () => {
