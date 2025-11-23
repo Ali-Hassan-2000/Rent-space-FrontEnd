@@ -46,10 +46,9 @@ const signIn = async (formData) => {
     }
 
     if (data.token) {
-      localStorage.setItem('token', data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem('token', JSON.stringify(data.token));
       // will be deleted later
-      console.log(data.token)
+      
       return JSON.parse(atob(data.token.split('.')[1]))
     }
 
