@@ -120,12 +120,9 @@ const getByCity = async (city) => {
 
 const getUserApartment = async (userId) => {
   const token = localStorage.getItem('token')
-  const res = await fetch(`${BASE_URL}/user/${userId}`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  });
+  const res = await fetch(`${BASE_URL}/owner/${user._id}`, {
+  headers: { Authorization: `Bearer ${token}` }
+});
   if (!res.ok) throw new Error("Failed to load your apartments");
   return res.json()
 }
