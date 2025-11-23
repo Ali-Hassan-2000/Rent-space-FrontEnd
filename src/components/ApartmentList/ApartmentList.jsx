@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router';
-import { index as getUserApartments } from '../../services/apartmentService';
+import { getUserApartment } from '../../services/apartmentService';
 import { destroy } from "../../services/apartmentService";
 
 const ApartmentList = () => {
@@ -21,7 +21,7 @@ useEffect(() => {
     }
     (async () => {
         try {
-            const data = await getUserApartments();
+            const data = await getUserApartment();
             setItems(Array.isArray(data) ? data : []);
         } catch (_) {
             setError('Failed to load apartments.');
