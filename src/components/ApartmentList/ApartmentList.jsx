@@ -18,7 +18,7 @@ useEffect(() => {
     }
     (async () => {
         try {
-            const data = await getUserApartments(user._id);
+            const data = await getUserApartments();
             setItems(Array.isArray(data) ? data : []);
         } catch (_) {
             setError('Failed to load apartments.');
