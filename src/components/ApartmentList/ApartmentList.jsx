@@ -9,9 +9,9 @@ const ApartmentList = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();    
 
- const user = JSON.parse(localStorage.getItem("user"))
+ const token = JSON.parse(localStorage.getItem("token"));
 useEffect(() => {
-    if (!user) {
+    if (!token) {
       setError("You must be logged in");
       setLoading(false);
       return;
