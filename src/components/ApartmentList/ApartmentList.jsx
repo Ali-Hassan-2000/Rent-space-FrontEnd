@@ -11,6 +11,8 @@ const ApartmentList = () => {
 
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
+console.log("USER:", user);
+console.log("USER ID:", user?._id);
 useEffect(() => {
     if (!token || !user) {
       setError("You must be logged in");
