@@ -19,8 +19,8 @@ const signUp = async (formData) => {
 
     if (data.token) {
       localStorage.setItem('token', data.token);
-      // will be deleted later
-      console.log(data.token)
+      localStorage.setItem("User", JSON.stringify(data.user));
+      
       return JSON.parse(atob(data.token.split('.')[1]))
     }
 
