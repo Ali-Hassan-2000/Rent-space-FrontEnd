@@ -19,7 +19,7 @@ const signUp = async (formData) => {
 
     if (data.token) {
       localStorage.setItem('token', data.token);
-      localStorage.setItem("User", JSON.stringify(data.user));
+      localStorage.setItem('user', JSON.stringify(data.user));
       
       return JSON.parse(atob(data.token.split('.')[1]))
     }
@@ -46,8 +46,8 @@ const signIn = async (formData) => {
     }
 
     if (data.token) {
-      localStorage.setItem('token', JSON.stringify(data.token));
-      // will be deleted later
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
       
       return JSON.parse(atob(data.token.split('.')[1]))
     }
